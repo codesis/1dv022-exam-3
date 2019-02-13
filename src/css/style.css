@@ -3,3 +3,26 @@ body {
     background-size: cover;
     color: black;
 }
+.navbar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    overflow: hidden;
+}
+.navbar i {
+    float: left;
+    display: block;
+    padding: 14px 16px;
+}
+.far.fa-comments {
+    color: white;
+    font-size: 48px;
+}
+.far.fa-folder {
+    color: white;
+    font-size: 48px;
+}
+.fas.fa-user-astronaut {
+    color: pink;
+    font-size: 48px;
+}
