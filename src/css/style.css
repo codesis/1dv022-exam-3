@@ -10,7 +10,7 @@ body {
 .dropup-content {
     display: none;
     position: absolute;
-    min-width: 160px;
+    min-width: 48px;
     z-index: 1;
     background-color: #9f74a2;
     bottom: 70px;
@@ -31,17 +31,21 @@ body {
 }
 .far.fa-comments {
     color: #3C1D46;
-    font-size: 48px;
+    font-size: 53px;
 }
-.far.fa-folder {
+.fas.fa-gamepad {
     color: #3C1D46;
     font-size: 48px;
 }
-.far.fa-folder:hover, .far.fa-comments:hover {
+.fas.fa-gamepad:hover, .far.fa-comments:hover {
     color: #9f74a2;
     background-color: #3C1D46;
 }
 .fas.fa-user-astronaut {
     color: #9f74a2;
     font-size: 48px;
+}
+#memoryContainer img {
+    width: 100px;
+    padding: 2px;
 }
