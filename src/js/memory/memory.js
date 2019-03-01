@@ -1,3 +1,4 @@
+'use strict'
 export default function (rows, cols, container) {
   container = document.getElementById(container)
   for (let i = 0; i < rows * cols; i += 1) {

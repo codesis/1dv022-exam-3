@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <title>PWD - Codesis</title>
@@ -8,7 +8,16 @@
     <script type="module" src="js/app.js"></script>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"><body>
-        <div id="main-desktop">
+            <!-- Templates for memory, chat, etc-->
+        <template id="tempWindow">
+            <h1>Memory game</h1>
+            <div id="memoryContainer">
+            </div>
+        </template>    
+    </head>
+        <body>
+        <div id="main-desktop" class="main-desktop">
+            <div class="launcher">
             <div class="dropup">
             <div class="navbar">
             <i class="fas fa-user-astronaut"></i>
@@ -19,12 +28,7 @@
         </div>
         </div>
         </div>
-        <!-- Templates for memory, chat, etc-->
-        <!-- <template id="memoryWindow"> -->
-            <h1>Memory game</h1>
-            <div id="memoryContainer">
-            </div>
-        <!-- </template> -->
+    </div>
     <script nomodule src="build.js"></script>
 </body>
 </html>
