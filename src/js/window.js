@@ -2,6 +2,7 @@
 
 // Function to create a basic window
 function CreateWindow (options) {
+  this.id = options.id
   this.element = undefined
   this.x = options.x || 10
   this.y = options.y || 10
@@ -16,4 +17,13 @@ CreateWindow.prototype.print = function () {
   let tempWindow = template.querySelector('div')
   tempWindow.setAttribute('id', this.id)
   tempWindow.style.left = this.x + 'px'
+  tempWindow.style.top = this.y + 'px'
+
+  let element = document.querySelector('#main-desktop')
+  let launcher = document.querySelector('.launcher')
+  element.insertBefore(template, launcher)
+
+  this.element = document.querySelector('#' + this.id)
+  this.element.querySelector('.window-title').appendChild(document.createTextNode(this.title))
+  this.element.querySelector('.window-icon').appendChild(document.createTextNode(this.icon))
 }

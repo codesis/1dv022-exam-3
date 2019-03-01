@@ -10,10 +10,49 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"><body>
             <!-- Templates for memory, chat, etc-->
         <template id="tempWindow">
-            <h1>Memory game</h1>
-            <div id="memoryContainer">
+            <div class="window">
+                <div class="window-top">
+                    <i class="en ikon"></i>
+                    <div class="window-buttons">
+                        <span class="button exit-btn" title="Close"><span class="exit-cross"<i class="en ikon">Exit</i></span></span>
+                        <span class="button minimize-btn" title="Minimize"><span class="minimize-icon"><i class="en ikon">Remove</i></span></span>
+                    </div>
+                </div>
+                <div class="window-menu"></div>
+                <div class="window-content"></div>
             </div>
-        </template>    
+        </template>
+
+        <template id="tempMaximizeBtn">
+            <span class="button maximize-btn" title="Maximize"><span class="maximize-icon"><i class="en ikon"></i></span></span>
+        </template>
+
+        <template id="tempMemorySettings">
+            <form class="settingsForm">
+                <label>Select size of the board: 
+                    <select name="boardSize">
+                        <option value="2x3">2x3</option>
+                        <option value="2x4">2x4</option>
+                        <option value="3x4">3x4</option>
+                        <option value="4x4">4x4</option>
+                    </select>
+                </label>
+                <input type="button" id="submit" value="Save"/>
+            </form>
+        </template>
+
+        <template id="tempMemoryGameOver">
+            <div class="memoryGameOver-wrapper">
+                <div class="memoryGameOver">
+                    <h1>Game completed!</h1>
+                    <h3>Number of tries: <span class="memoryTurns"></span></h3>
+                </div>
+            </div>
+        </template>
+
+        <!-- <template id="tempChat">
+
+        </template> -->
     </head>
         <body>
         <div id="main-desktop" class="main-desktop">
