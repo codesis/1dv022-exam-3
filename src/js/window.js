@@ -34,5 +34,12 @@ CreateWindow.prototype.print = function () {
     windowButtons.insertBefore(button, removeButton)
   }
 }
+// Clearing the window of content
+CreateWindow.prototype.clearContent = function () {
+  let content = this.element.querySelector('.window-content')
 
+  while (content.hasChildNodes()) {
+    content.removeChild(content.firstChild)
+  }
+}
 module.exports = CreateWindow
