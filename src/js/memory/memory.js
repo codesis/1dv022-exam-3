@@ -1,13 +1,24 @@
 'use strict'
-export default function (rows, cols, container) {
-  container = document.getElementById(container)
-  for (let i = 0; i < rows * cols; i += 1) {
-    let img = document.createElement('img')
-    img.setAttribute('src', 'image/0.jpeg')
-    container.appendChild(img)
 
-    if ((i + 1) % cols === 0) {
-      container.appendChild(document.createElement('br'))
-    }
-  }
+const CreateWindow = require('./../window')
+const Game = require('./game')
+
+function Memory (options) {
+  CreateWindow.call(this, options)
+
+  this.settingsOpen = false
+  this.game = undefined
+  this.boardSize = [4, 4]
+  this.markedBrick = undefined
+}
+Memory.prototype = Object.create(CreateWindow.prototype)
+Memory.prototype.constructor = Memory
+
+// Initialize memory
+Memory.prototype.init = function () {
+  this.print()
+  this.element.querySelector('.window-menu').addEventListener('click', this.menuClicked.bind(this))
+
+  this.game = new Game(this.element.querySelector('.window-content'), 4, 4)
+  this.game.init()
 }

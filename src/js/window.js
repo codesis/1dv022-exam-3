@@ -26,4 +26,13 @@ CreateWindow.prototype.print = function () {
   this.element = document.querySelector('#' + this.id)
   this.element.querySelector('.window-title').appendChild(document.createTextNode(this.title))
   this.element.querySelector('.window-icon').appendChild(document.createTextNode(this.icon))
+
+  if (this.maximizable) {
+    let button = document.querySelector('#tempMaximizeBtn').content.cloneNode(true)
+    let windowButtons = this.element.querySelector('.window-buttons')
+    let removeButton = this.element.querySelector('.minimize-btn')
+    windowButtons.insertBefore(button, removeButton)
+  }
 }
+
+module.exports = CreateWindow
