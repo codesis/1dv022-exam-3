@@ -1,7 +1,7 @@
 'use strict'
 // Require the game's board and bricks
-const Board = require('./board')
-const Brick = require('./brick')
+import Board from './board.js'
+import Brick from './brick.js'
 
 // Function for the Memory game
 function Game (element, x, y) {
@@ -123,4 +123,4 @@ Game.prototype.gameOver = function () {
   this.element.appendChild(template)
 }
 
-module.exports = Game
+export default Game

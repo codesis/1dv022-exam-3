@@ -26,4 +26,4 @@ Board.prototype.printBricks = function () {
   this.element.appendChild(frag)
 }
 
-module.exports = Board
+export default Board

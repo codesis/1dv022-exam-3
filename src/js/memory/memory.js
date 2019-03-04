@@ -1,11 +1,10 @@
 'use strict'
 
-const CreateWindow = require('./../window')
-const Game = require('./game')
+import CreateWindow from './../window.js'
+import Game from './game.js'
 
 function Memory (options) {
   CreateWindow.call(this, options)
-
   this.settingsOpen = false
   this.game = undefined
   this.boardSize = [4, 4]
@@ -13,12 +12,10 @@ function Memory (options) {
 }
 Memory.prototype = Object.create(CreateWindow.prototype)
 Memory.prototype.constructor = Memory
-
 // Initialize memory
 Memory.prototype.init = function () {
   this.print()
   this.element.querySelector('.window-menu').addEventListener('click', this.menuClicked.bind(this))
-
   this.game = new Game(this.element.querySelector('.window-content'), 4, 4)
   this.game.init()
 }
@@ -26,21 +23,16 @@ Memory.prototype.init = function () {
 Memory.prototype.print = function () {
   CreateWindow.prototype.print.call(this)
   this.element.classList.add('memoryApp')
-
   let menu = this.element.querySelector('.window-menu')
-
   let alt1 = document.querySelector('#tempWindowAlt').content.cloneNode(true)
   alt1.querySelector('.menu-alt').appendChild(document.createTextNode('Start a new game'))
-
   let alt2 = document.querySelector('#tempWindowAlt').content.cloneNode(true)
   alt2.querySelector('.menu-alt').appendChild(document.createTextNode('Settings'))
-
   menu.appendChild(alt1)
   menu.appendChild(alt2)
 }
 Memory.prototype.menuClicked = function (event) {
   let target
-
   if (event.target.tagName.toLowerCase() === 'a') {
     target = event.target.textContent.toLowerCase()
   }
@@ -66,12 +58,13 @@ Memory.prototype.restart = function (value) {
   }
   let x = this.boardSize[0]
   let y = this.boardSize[1]
-
   this.clearContent()
-
   this.game.removeEventListeners()
-
   this.game = new Game(this.element.querySelector('.window-content'), x, y)
   this.game.init()
 }
-module.exports = Memory
+
+// Memory.prototype = Object.create(prototype)
+// Memory.prototype.constructor = Memory
+
+export default Memory

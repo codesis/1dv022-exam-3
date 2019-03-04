@@ -14,8 +14,8 @@
                 <div class="window-top">
                     <i class="en ikon"></i>
                     <div class="window-buttons">
-                        <span class="button exit-btn" title="Close"><span class="exit-cross"><i class="en ikon">Exit</i></span></span>
-                        <span class="button minimize-btn" title="Minimize"><span class="minimize-icon"><i class="en ikon">Remove</i></span></span>
+                        <span class="button exit-btn" title="Close"><span class="exit-cross"><i class="fas fa-times-circle">Exit</i></span></span>
+                        <span class="button minimize-btn" title="Minimize"><span class="minimize-icon"><i class="fas fa-chevron-circle-down">Remove</i></span></span>
                     </div>
                 </div>
                 <div class="window-menu"></div>
@@ -24,7 +24,7 @@
         </template>
 
         <template id="tempMaximizeBtn">
-            <span class="button maximize-btn" title="Maximize"><span class="maximize-icon"><i class="en ikon"></i></span></span>
+            <span class="button maximize-btn" title="Maximize"><span class="maximize-icon"><i class="fas fa-plus"></i></span></span>
         </template>
 
         <template id="tempWindowAlt">
@@ -54,24 +54,46 @@
             </div>
         </template>
 
-        <!-- <template id="tempChat">
+        <template id="tempChat">
+            <div class="chatMessageList">
+                <ul>
+                </ul>
+            </div>
+            <div class="chatForm">
+                <form>
+                    <textarea class="inputField" title="Message"></textarea>
+                    <input class="chat-sendBtn" title="Send" type="button" value="Send" disabled="disabled">
+                </form>
+            </div>
+        </template>
 
-        </template> -->
+        <template id="tempChatSettings">
+            <form class="settingsForm">
+                <label>Username: <input type="text" name="username" placeholder="Enter Username"></label>
+                <br>
+                <label>Server: <input type="text" name="server"></label>
+                <br>
+                <label>Channel: <input type="text" name="channel" placeholder="Optional"></label>
+                <br>
+                <label><input type="button" value="Save"/></label>
+            </form>
+        </template>
+        
     </head>
         <body>
         <div id="main-desktop" class="main-desktop">
             <div class="launcher">
-            <div class="dropup">
-            <div class="navbar">
-            <i class="fas fa-user-astronaut"></i>
-            <div class="dropup-content">
-            <i id="chat" class="far fa-comments"></i>
-            <i id="game" class="fas fa-gamepad"></i>
+                <div class="dropup">
+                    <div class="navbar">
+                        <i class="fas fa-user-astronaut"></i>
+                            <div class="dropup-content">
+                                <li value="chat"></li><i id="chat" class="far fa-comments"></i><span class="app-title">Chat</span>
+                                <li value="game"></li><i id="game" class="fas fa-gamepad"></i><span class="app-title">Memory</span>
+                            </div>
+                    </div>
+                </div>
             </div>
         </div>
-        </div>
-        </div>
-    </div>
     <script nomodule src="build.js"></script>
 </body>
 </html>

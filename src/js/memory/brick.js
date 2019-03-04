@@ -6,4 +6,4 @@ function Brick (id, jpegNr) {
   this.jpegNr = jpegNr
 }
 
-module.exports = Brick
+export default Brick

@@ -42,4 +42,4 @@ CreateWindow.prototype.clearContent = function () {
     content.removeChild(content.firstChild)
   }
 }
-module.exports = CreateWindow
+export default CreateWindow

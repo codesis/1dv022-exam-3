@@ -1,3 +1,6 @@
 'use strict'
-import Memory from './memory/memory.js'
-Memory(4, 4, 'memoryContainer')
+
+import Desktop from './desktop.js'
+
+let desktop = new Desktop()
+desktop.init()
