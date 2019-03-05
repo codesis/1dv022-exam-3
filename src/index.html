@@ -7,12 +7,13 @@
     <script type="module" src="js/app.js"></script>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/memory.css">
+    <link rel="stylesheet" href="css/chat.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
         <!-- TEMPLATES -->
     <template id="template-window">
         <div class="window">
             <div class="window-top">
-                <i class="fas fa-user-astronaut window-icon "></i><span class="window-title"></span><span class="window-title-extra no-pointer"></span>
+                <i class="fas fa-user-astronaut window-icon no-pointer"></i><span class="window-title"></span><span class="window-title-extra no-pointer"></span>
                 <div class="window-buttons">
                     <span class="button exit-button" title="Close"><span class="exit-cross"><i class="fas fa-times-circle"></i></span></span>
                     <span class="button minimize-button" title="Minimize"><span class="minimize-icon"><i class="fas fa-chevron-circle-down"></i></span></span>
@@ -31,7 +32,7 @@
     </template>
 
     <template id="template-maximize-button">
-        <span class="button maximize-button" title="Maximize"><span class="maximize-icon"><i class="fas fa-plus resize-icon"></i></span></span>
+        <span class="button maximize-button" title="Maximize"><span class="maximize-icon"><i class="fas fa-plus resize-icon">crop_din</i></span></span>
     </template>
 
     <template id="template-window-menu-alternative">
@@ -70,43 +71,45 @@
     </template>
 
     <template id="template-chat-app">
-        <div class="chat-message-list">
-            <ul>
-            </ul>
-        </div>
-        <div class="chat-form">
-            <form>
-                <textarea class="chat-inputField" title="Message"></textarea>
-                <input class="chat-sendButton" title="Send" type="button" value="Send" disabled="disabled">
-            </form>
-        </div>
-    </template>
-
-    <template id="template-chat-message-line">
-        <li>
-            <div class="chat-message-line">
-                <span class="chat-username"></span><span class="chat-message"></span>
+            <div class="chat-message-list">
+                <ul>
+                </ul>
             </div>
-        </li>
-    </template>
-
-    <template id="template-chat-history-separator">
-        <div class="chat-history-separator"><i class="material-icons md-12">history</i> History <i class="material-icons md-12">keyboard_arrow_up</i></div>
-    </template>
-
-    <template id="template-chat-settings">
-        <form class="settings-form">
-            <label>Username: <input type="text" name="username" placeholder="Enter Username">
-            </label><br>
-            <label>Server: <input type="text" name="server">
-            </label><br>
-            <label><input type="button" value="Connect" /></label>
-        </form>
-    </template>
-
-    <template id="template-chat-emoji">
-        <span class="emoji"></span>
-    </template>
+            <div class="chat-form">
+                <form>
+                    <textarea class="chat-inputField" title="Message"></textarea>
+                    <input class="chat-sendButton" title="Send" type="button" value="Send" disabled="disabled">
+                </form>
+            </div>
+        </template>
+    
+        <template id="template-chat-message-line">
+            <li>
+                <div class="chat-message-line">
+                    <span class="chat-username"></span><span class="chat-message"></span>
+                </div>
+            </li>
+        </template>
+    
+        <template id="template-chat-history-separator">
+            <div class="chat-history-separator"><i class="material-icons md-12">history</i> History <i class="material-icons md-12">keyboard_arrow_up</i></div>
+        </template>
+    
+        <template id="template-chat-settings">
+            <form class="settings-form">
+                <label>Username: <input type="text" name="username" placeholder="Enter Username">
+                </label><br>
+                <label>Server: <input type="text" name="server">
+                </label><br>
+                <label>Channel: <input type="text" name="channel" placeholder="optional">
+                </label><br>
+                <label><input type="button" value="Connect" /></label>
+            </form>
+        </template>
+    
+        <template id="template-chat-emoji">
+            <span class="emoji"></span>
+        </template>
 
     <template id="template-window-menu-info">
         <span class="menu-info"></span>

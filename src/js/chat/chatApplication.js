@@ -12,7 +12,7 @@ function ChatApp (options) {
   this.chat = undefined
   this.settingsOpen = false
   this.username = ''
-  this.server = 'ws://vhost3.lnu.se:20080/socket/'
+  this.server = 'localhost:4000'
 
   this.addFocusFunc = this.addFocus.bind(this)
   this.removeFocusFunc = this.removeFocus.bind(this)
