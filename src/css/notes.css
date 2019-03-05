@@ -1,55 +1,25 @@
-.notes-app {
-    width: 400px;
-    height: 500px;
+.about-app {
+	width: 600px;
+	height: 500px;
 }
 
-.notes-app .window-content {
-    background: #e9cfda;
-    position: relative;
+.about-app .window-content {
+	overflow: auto;
+	background: rgba(100, 54, 89, 0.9);
 }
 
-.notes-app .notes-form {
-    bottom: 3px;
-    height: 45px;
-    width: 100%;
-    position: absolute;
-    border-top: 1px solid #000000;
+.about-app h1, .about-app h2 {
+	border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+	max-width: 75%;
+	margin-top: 10px;
+	color: rgb(187, 180, 159);
 }
 
-.notes-app .notes-form .note-input {
-    resize: none;
-    width: calc(100% - 56px);
-    margin: 2px;
-    height: 37px;
-    border: 1px solid black;
-    border-radius: 5px;
-    overflow: auto;
-    padding: 2px;
-    font-size: 16px;
+.about-app h3 {
+	margin-top: 5px;
 }
 
-.notes-app .notes-form .note-button {
-    top: 0;
-    position: absolute;
-    width: 39px;
-    height: 41px;
-    margin: 2px;
-    border-radius: 50%;
-    border: 2px solid #000000;
-    background-color: #ebcee2;
-    font-weight: bold;
-}
-
-.notes-app .note-list {
-    height: calc(100% - 45px);
-    overflow: auto;
-}
-
-.notes-app .note-list ul {
-    padding-bottom: 5px;
-}
-
-.notes-app .note-list ul li {
-    padding-top: 5px;
-    display: block;
+.about-app .about-copyright {
+	font-size: 11px;
+	color: rgba(15, 9, 9, 0.651);
 }

@@ -20,9 +20,7 @@ function Desktop () {
   this.launcher = new Launcher(this)
 }
 
-/**
- * Function to handle the basic features of the desktop
- */
+// For initializing the desktop and add eventlisteners for mouse and key
 Desktop.prototype.init = function () {
   this.launcher.init()
 
@@ -30,19 +28,14 @@ Desktop.prototype.init = function () {
   document.addEventListener('keydown', this.keyDown.bind(this))
 }
 
-/**
- * Function to handle what will happen if mouse up
- */
+// Removes event listeners for mousemove and mouseup
 Desktop.prototype.mouseUp = function () {
   window.removeEventListener('mousemove', this.mouseMoveFunc)
   window.removeEventListener('mouseup', this.mouseUpFunc)
   this.activeWindow.element.classList.remove('moving')
 }
 
-/**
- * Function to handle what will happen when mouse is down
- * @param event
- */
+// For what happens when the mouseclicks
 Desktop.prototype.mouseDown = function (event) {
   let element = event.target
 
@@ -73,10 +66,7 @@ Desktop.prototype.mouseDown = function (event) {
   }
 }
 
-/**
- * Function to handle the mouse move
- * @param event
- */
+// For handeling when the mouse is moved
 Desktop.prototype.mouseMove = function (event) {
   let newX = event.clientX - this.clickX
   let newY = event.clientY - this.clickY
@@ -85,11 +75,11 @@ Desktop.prototype.mouseMove = function (event) {
   let newMiddleX = newX + parseInt(this.activeWindow.element.offsetWidth) / 2
   let newMiddleY = newY + parseInt(this.activeWindow.element.offsetHeight) / 2
 
-  let windowW = window.innerWidth
-  let windowH = window.innerHeight
+  let winWidth = window.innerWidth
+  let winHeigth = window.innerHeight
 
   // if the move is not out of bounds then move it
-  if (newMiddleX < windowW && newMiddleX > 0 && newMiddleY < windowH && newY > 0) {
+  if (newMiddleX < winWidth && newMiddleX > 0 && newMiddleY < winHeigth && newY > 0) {
     this.activeWindow.x = event.clientX - this.clickX
     this.activeWindow.y = event.clientY - this.clickY
 
@@ -99,10 +89,7 @@ Desktop.prototype.mouseMove = function (event) {
   }
 }
 
-/**
- * Function to handle clicks on windows
- * @param event
- */
+// For when the user clicks on a window
 Desktop.prototype.windowButtonClick = function (event) {
   let action = event.target.classList
 
@@ -131,13 +118,10 @@ Desktop.prototype.windowButtonClick = function (event) {
 
     // check what action to take
     if (action.contains('exit-button')) {
-      // clos the app
       this.closeWindow(this.windows[index].id)
     } else if (action.contains('minimize-button')) {
-      // minimize the app
       this.windows[index].minimize()
     } else if (action.contains('maximize-button')) {
-      // maximize the app
       if (this.windows[index].maximizable) {
         this.windows[index].maximize()
       }
@@ -145,15 +129,12 @@ Desktop.prototype.windowButtonClick = function (event) {
   }
 }
 
-/**
- * Function to close a window and destroy the app
- * @param id
- */
+// Function for closing a window
 Desktop.prototype.closeWindow = function (id) {
   let removed = false
   for (let i = 0; i < this.windows.length && !removed; i += 1) {
     if (this.windows[i].id === id) {
-      // remove from "running-apps"
+      // remove from "running-apps" by the launcher
       let clickedTooltip = document.querySelector("[value='id:" + this.windows[i].id + "']")
       let container = clickedTooltip.parentNode
       while (!container.classList.contains('tooltip-container')) {
@@ -170,14 +151,11 @@ Desktop.prototype.closeWindow = function (id) {
   }
 }
 
-/**
- * Function to clear and reset the desktop
- */
+// For clearing our desktop
 Desktop.prototype.clearDesktop = function () {
   for (let i = 0; i < this.windows.length; i += 1) {
     this.windows[i].destroy()
 
-    // remove from "running-apps"
     let windowTooltip = document.querySelector("[value='id:" + this.windows[i].id + "']")
     let container = windowTooltip.parentNode
     while (!container.classList.contains('tooltip-container')) {
@@ -194,10 +172,7 @@ Desktop.prototype.clearDesktop = function () {
   this.zIndex = 0
 }
 
-/**
- * Function to handle if key is pressed
- * @param event
- */
+// Function for keyboard
 Desktop.prototype.keyDown = function (event) {
   if (document.activeElement.id === this.activeWindow.id) {
     if (this.activeWindow.keyActivated) {
@@ -206,10 +181,7 @@ Desktop.prototype.keyDown = function (event) {
   }
 }
 
-/**
- * Set focus to an element
- * @param element - the element to set focus on
- */
+// For setting focus
 Desktop.prototype.setFocus = function (element) {
   element.focus()
 

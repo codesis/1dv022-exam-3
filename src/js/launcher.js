@@ -3,30 +3,27 @@ import Memory from './memory/memory.js'
 import Chat from './chat/chatApplication.js'
 import Notes from './notes/notes.js'
 
-/**
- * Constructor for the launcher
- * @param desktop, the parent Desktop object
+/*
+ * @param desktop, which is the parent Desktop object
  * @constructor
  */
 function Launcher (desktop) {
   this.desktop = desktop
 
-  // the datestampoptions to use
+  // the datestamp options to use
   this.dateStampOptions = {
     year: 'numeric',
     month: 'numeric',
     day: 'numeric'
   }
 
-  // the timestampoptions to use
+  // the timestamp options to use
   this.timeStampOptions = {
     hour: '2-digit', minute: '2-digit'
   }
 }
 
-/**
- * Function to initialize the basics
- */
+// For initializing the launcher
 Launcher.prototype.init = function () {
   document.querySelector('.launcher').addEventListener('click', this.launcherClick.bind(this), true)
 
@@ -34,10 +31,7 @@ Launcher.prototype.init = function () {
   window.setInterval(this.updateClock.bind(this), 1000)
 }
 
-/**
- * Function to handle the clicks in the launcher
- * @param event
- */
+// For when the user clicks in the launcher
 Launcher.prototype.launcherClick = function (event) {
   let value
   let icon
@@ -63,10 +57,7 @@ Launcher.prototype.launcherClick = function (event) {
         // running-apps-tab clicked, switch to that app
         this.switchToWindow(switchTo[1])
       }
-    }
-
-    // start the app that got clicked
-    else {
+    } else {
       icon = element.querySelector('i').textContent
       title = element.querySelector('.tooltip-title').textContent
       this.startApplication(value, icon, title)
@@ -74,11 +65,7 @@ Launcher.prototype.launcherClick = function (event) {
   }
 }
 
-/**
- * Function to get what element got clicked in the launcher
- * @param target - the event-target from click
- * @returns DOM-element
- */
+// For which element that is clicked in the launcher
 Launcher.prototype.getClickedLauncherElement = function (target) {
   let element
 
@@ -92,12 +79,7 @@ Launcher.prototype.getClickedLauncherElement = function (target) {
   return element
 }
 
-/**
- * Function to start new application
- * @param type - what app should be started
- * @param icon - what icon to use
- * @param title - what title to use
- */
+// For starting an application
 Launcher.prototype.startApplication = function (type, icon, title) {
   let marginX = 10 * (this.desktop.offsetX)
   let marginY = 10 * (this.desktop.offsetY)
@@ -138,7 +120,7 @@ Launcher.prototype.startApplication = function (type, icon, title) {
     this.checkBounds(newApp)
   }
 }
-
+// For creating an application that we have
 Launcher.prototype.createApplication = function (type, appOptions) {
   let newApp
 
@@ -146,8 +128,8 @@ Launcher.prototype.createApplication = function (type, appOptions) {
   switch (type) {
     case 'memory':
     {
-      // set setting to listen on keys
       appOptions.keyActivated = true
+      appOptions.maximizable = true
       newApp = new Memory(appOptions)
       newApp.init()
 
@@ -156,7 +138,6 @@ Launcher.prototype.createApplication = function (type, appOptions) {
 
     case 'chat':
     {
-      // set option to be able to maximize window
       appOptions.maximizable = true
       newApp = new Chat(appOptions)
       newApp.init()
@@ -165,7 +146,6 @@ Launcher.prototype.createApplication = function (type, appOptions) {
     }
     case 'notes': {
       appOptions.maximizable = true
-      appOptions.keyActivated = true
       newApp = new Notes(appOptions)
       newApp.print()
       break
@@ -181,10 +161,7 @@ Launcher.prototype.createApplication = function (type, appOptions) {
   return newApp
 }
 
-/**
- * Function to handle if the new window is out of bounds
- * @param app - the app-object to be checked
- */
+// For making sure the window stays within bounds
 Launcher.prototype.checkBounds = function (app) {
   let windowW = window.innerWidth
   let windowH = window.innerHeight
@@ -210,10 +187,7 @@ Launcher.prototype.checkBounds = function (app) {
   }
 }
 
-/**
- * Function to handle focus on call, and show minimized window again
- * @param id - the window-id to set focus on
- */
+// Function for being able to switch window, focus or minimized
 Launcher.prototype.switchToWindow = function (id) {
   let window = document.querySelector('#' + id)
   if (window) {
@@ -227,11 +201,7 @@ Launcher.prototype.switchToWindow = function (id) {
   }
 }
 
-/**
- * Function to add a new app to the running-app-list
- * @param type - what type is the app (what list to add to)
- * @param app - the app-object to be added
- */
+// For the opened app-list by the launcher
 Launcher.prototype.addRunningApp = function (type, app) {
   // get the tooltip-container for the app and add it to the list
   let container = document.querySelector("li[value='" + type + "'] .tooltip-container")
@@ -243,9 +213,7 @@ Launcher.prototype.addRunningApp = function (type, app) {
   container.appendChild(template)
 }
 
-/**
- * Function to update the clock
- */
+// For making sure the clock displays correct time
 Launcher.prototype.updateClock = function () {
   let dateObj = new Date()
   let date = dateObj.toLocaleDateString('sv-se', this.dateStampOptions)

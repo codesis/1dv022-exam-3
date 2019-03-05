@@ -307,7 +307,109 @@ Chat.prototype.parseMessage = function (text) {
 
   return frag
 }
+// For adding emojis in the messages
+Chat.prototype.addLinkOrEmojiToFragment = function (frag, type, data) {
+  var textNode
+  if (type === 'link') {
+    // link found, create a-element
+    var aTag = document.createElement('a')
+    aTag.setAttribute('href', '//' + data)
+    aTag.setAttribute('target', '_blank')
+    var linkNode = document.createTextNode(data)
 
+    aTag.appendChild(linkNode)
+    textNode = document.createTextNode(' ')
+
+    frag.appendChild(aTag)
+    frag.appendChild(textNode)
+  } else if (type === 'emoji') {
+    // emoji found, create it
+    var spanTag = this.parseEmojis(data)
+
+    textNode = document.createTextNode(' ')
+
+    frag.appendChild(spanTag)
+    frag.appendChild(textNode)
+  }
+
+  return frag
+}
+
+// For the emojis in the messages
+Chat.prototype.parseEmojis = function (emoji) {
+  var template = document.querySelector('#template-chat-emoji').content.cloneNode(true)
+  var elem = template.querySelector('.emoji')
+  switch (emoji) {
+    case ':)':
+    case ':-)': {
+      elem.classList.add('emoji-smiley')
+      break
+    }
+
+    case ':D':
+    case ':-D': {
+      elem.classList.add('emoji-happy')
+      break
+    }
+
+    case ';)':
+    case ';-)': {
+      elem.classList.add('emoji-flirt')
+      break
+    }
+
+    case ':O':
+    case ':-O': {
+      elem.classList.add('emoji-surprised')
+      break
+    }
+
+    case ':P':
+    case ':-P': {
+      elem.classList.add('emoji-tounge')
+      break
+    }
+
+    case ':@': {
+      elem.classList.add('emoji-angry')
+      break
+    }
+
+    case ':S':
+    case ':-S': {
+      elem.classList.add('emoji-confused')
+      break
+    }
+
+    case ':(':
+    case ':-(': {
+      elem.classList.add('emoji-sad')
+      break
+    }
+
+    case ":'(":
+    case ":'-(": {
+      elem.classList.add('emoji-crying')
+      break
+    }
+
+    case ':L': {
+      elem.classList.add('emoji-heart')
+      break
+    }
+
+    case ':3': {
+      elem.classList.add('emoji-cat')
+      break
+    }
+
+    default: {
+      elem = document.createTextNode(emoji)
+    }
+  }
+
+  return elem
+}
 // For when user wants to clear the message history
 Chat.prototype.clearHistory = function () {
   // remove from storage and reset array

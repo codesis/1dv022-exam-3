@@ -2,12 +2,7 @@
 	margin: 0;
 	padding: 0;
 	overflow: hidden;
-	font-family: 'Muli', sans-serif;
-
-	user-select: none;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
+	font-family: 'Courier New', Courier, monospace;
 }
 
 
@@ -21,6 +16,7 @@ body {
 	height: 300px;
 	position: absolute;
 	border: 1px solid #8a4f76;
+	border-radius: 5px;
 	box-shadow: 0px 0px 16px 7px rgba(73, 34, 65, 0.788);
 	opacity: 1;
 	transition: opacity 0.2s ease-in-out;
@@ -40,7 +36,7 @@ body {
 	line-height: 30px;
 	position: absolute;
 	top: 2px;
-	font-family: 'Muli', sans-serif;
+	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 .window .window-menu {
