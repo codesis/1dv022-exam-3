@@ -2,98 +2,218 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>PWD - Codesis</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script type="module" src="js/app.js"></script>
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"><body>
-            <!-- Templates for memory, chat, etc-->
-        <template id="tempWindow">
-            <div class="window">
-                <div class="window-top">
-                    <i class="en ikon"></i>
-                    <div class="window-buttons">
-                        <span class="button exit-btn" title="Close"><span class="exit-cross"><i class="fas fa-times-circle">Exit</i></span></span>
-                        <span class="button minimize-btn" title="Minimize"><span class="minimize-icon"><i class="fas fa-chevron-circle-down">Remove</i></span></span>
-                    </div>
-                </div>
-                <div class="window-menu"></div>
-                <div class="window-content"></div>
-            </div>
-        </template>
-
-        <template id="tempMaximizeBtn">
-            <span class="button maximize-btn" title="Maximize"><span class="maximize-icon"><i class="fas fa-plus"></i></span></span>
-        </template>
-
-        <template id="tempWindowAlt">
-            <a class="menu-alt"></a>
-        </template>
-
-        <template id="tempMemorySettings">
-            <form class="settingsForm">
-                <label>Select size of the board: 
-                    <select name="boardSize">
-                        <option value="2x3">2x3</option>
-                        <option value="2x4">2x4</option>
-                        <option value="3x4">3x4</option>
-                        <option value="4x4">4x4</option>
-                    </select>
-                </label>
-                <input type="button" id="submit" value="Save"/>
-            </form>
-        </template>
-
-        <template id="tempMemoryGameOver">
-            <div class="memoryGameOver-wrapper">
-                <div class="memoryGameOver">
-                    <h1>Game completed!</h1>
-                    <h3>Number of tries: <span class="memoryTurns"></span></h3>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+        <!-- TEMPLATES -->
+    <template id="template-window">
+        <div class="window">
+            <div class="window-top">
+                <i class="material-icons md-24 window-icon no-pointer"></i><span class="window-title no-pointer"></span><span class="window-title-extra no-pointer"></span>
+                <div class="window-buttons">
+                    <span class="button exit-button" title="Close"><span class="exit-cross"><i class="fas fa-times-circle">close</i></span></span>
+                    <span class="button minimize-button" title="Minimize"><span class="minimize-icon"><i class="fas fa-chevron-circle-down">remove</i></span></span>
                 </div>
             </div>
-        </template>
+            <div class="window-menu"></div>
+            <div class="window-content"></div>
+        </div>
+    </template>
 
-        <template id="tempChat">
-            <div class="chatMessageList">
-                <ul>
-                </ul>
-            </div>
-            <div class="chatForm">
-                <form>
-                    <textarea class="inputField" title="Message"></textarea>
-                    <input class="chat-sendBtn" title="Send" type="button" value="Send" disabled="disabled">
-                </form>
-            </div>
-        </template>
+    <template id="template-tooltip">
+        <div class="tooltip-line">
+            <span class="tooltip float-left"></span>
+            <i class="fas fa-times-circle" title="Close">close</i>
+        </div>
+    </template>
 
-        <template id="tempChatSettings">
-            <form class="settingsForm">
-                <label>Username: <input type="text" name="username" placeholder="Enter Username"></label>
-                <br>
-                <label>Server: <input type="text" name="server"></label>
-                <br>
-                <label>Channel: <input type="text" name="channel" placeholder="Optional"></label>
-                <br>
-                <label><input type="button" value="Save"/></label>
-            </form>
-        </template>
-        
-    </head>
-        <body>
-        <div id="main-desktop" class="main-desktop">
-            <div class="launcher">
-                <div class="dropup">
-                    <div class="navbar">
-                        <i class="fas fa-user-astronaut"></i>
-                            <div class="dropup-content">
-                                <li value="chat"></li><i id="chat" class="far fa-comments"></i><span class="app-title">Chat</span>
-                                <li value="game"></li><i id="game" class="fas fa-gamepad"></i><span class="app-title">Memory</span>
-                            </div>
-                    </div>
-                </div>
+    <template id="template-maximize-button">
+        <span class="button maximize-button" title="Maximize"><span class="maximize-icon"><i class="fas fa-plus">crop_din</i></span></span>
+    </template>
+
+    <template id="template-window-menu-alternative">
+        <a class="menu-alternative"></a>
+    </template>
+
+    <template id="template-settings">
+        <div class="settings-wrapper">
+            <div class="settings">
             </div>
         </div>
-    <script nomodule src="build.js"></script>
+    </template>
+
+    <template id="template-memory-settings">
+        <form class="settings-form">
+            <label>Choose board-size:
+                <select name="board-size">
+                    <option value="2x2">2x2</option>
+                    <option value="2x4">2x4</option>
+                    <option value="4x4" selected>4x4</option>
+                    <option value="4x2">4x2</option>
+                </select>
+            </label>
+            <input type="button" id="submit" value="Save" />
+        </form>
+    </template>
+
+    <template id="template-memory-gameover">
+        <div class="memory-gameover-wrapper">
+            <div class="memory-gameover">
+                <h1>Game completed!</h1>
+                <h3>You made <span class="memory-turns"></span> tries</h3>
+                <h3>in <span class="memory-time"></span> seconds!</h3>
+            </div>
+        </div>
+    </template>
+
+    <template id="template-chat-application">
+        <div class="chat-message-list">
+            <ul>
+            </ul>
+        </div>
+        <div class="chat-form">
+            <form>
+                <textarea class="chat-inputField" title="Message"></textarea>
+                <input class="chat-sendButton" title="Send" type="button" value="Send" disabled="disabled">
+            </form>
+        </div>
+    </template>
+
+    <template id="template-chat-message-line">
+        <li>
+            <div class="chat-message-line">
+                <span class="chat-username"></span><span class="chat-message"></span>
+            </div>
+        </li>
+    </template>
+
+    <template id="template-chat-history-separator">
+        <div class="chat-history-separator"><i class="material-icons md-12">history</i> History <i class="material-icons md-12">keyboard_arrow_up</i></div>
+    </template>
+
+    <template id="template-chat-settings">
+        <form class="settings-form">
+            <label>Username: <input type="text" name="username" placeholder="Enter Username">
+            </label><br>
+            <label>Server: <input type="text" name="server">
+            </label><br>
+            <label>Channel: <input type="text" name="channel" placeholder="optional">
+            </label><br>
+            <label><input type="button" value="Connect" /></label>
+        </form>
+    </template>
+
+    <template id="template-chat-emoji">
+        <span class="emoji"></span>
+    </template>
+
+    <template id="template-window-menu-info">
+        <span class="menu-info"></span>
+    </template>
+
+    <template id="template-tetris-application">
+        <table class="tetris-grid">
+            <tbody class="tetris-grid-body">
+            </tbody>
+        </table>
+        <div class="tetris-side-container">
+            <h3>Next:</h3>
+            <table class="tetris-next-block">
+                <tbody>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="tetris-side-info">
+                <h3>Points:</h3>
+                <p class="tetris-points">0</p>
+                <h3>Level:</h3>
+                <p class="tetris-level">1</p>
+
+                <div class="sound-controller"><i id="tetris-music-toggle" class="material-icons mute"></i><p>Music FX</p></div>
+                <div class="sound-controller"><i id="tetris-sound-toggle" class="material-icons mute"></i><p>Sound FX</p></div>
+            </div>
+        </div>
+
+        <div class="tetris-paused hide">
+            <p>-paused-</p>
+            <p>Press ENTER to resume</p>
+        </div>
+
+        <div class="tetris-splash-screen">
+            <h3>Controls:</h3>
+            <ul>
+                <li><h4>Left/Right Arrow:</h4>Move block left/right</li>
+                <li><h4>Down Arrow: </h4>Drop block down faster</li>
+                <li><h4>Space: </h4>Drop block to the bottom</li>
+                <li><h4>Enter: </h4>Start/Pause/Resume</li>
+            </ul>
+        </div>
+    </template>
+
+    <!-- END OF TEMPLATES -->
+</head>
+<body>
+<div id="main-frame" class="main-frame">
+
+    <div class="launcher">
+        <ul>
+            <li value="reset">
+                <i class="fas fa-sync-alt">loop</i>
+                <div class="tooltip-container">
+                    <div class="tooltip-line">
+                        <span class="tooltip-title">Refresh</span>
+                    </div>
+                </div>
+            </li>
+
+            <li value="memory">
+                <i class="fas fa-gamepad">apps</i>
+                <div class="tooltip-container">
+                    <div class="tooltip-line">
+                        <span class="tooltip-title">Memory</span>
+                    </div>
+                </div>
+            </li>
+
+            <li value="chat">
+                <i class="far fa-comments">chat</i>
+                <div class="tooltip-container">
+                    <div class="tooltip-line">
+                        <span class="tooltip-title">Chat</span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+        <div class="launcher-clock">
+            <span class="launcher-clock-time">99:99</span>
+            <span class="launcher-clock-date">1970-01-01</span>
+        </div>
+    </div>
+</div>
+
+<script nomodule src="build.js"></script>
 </body>
 </html>

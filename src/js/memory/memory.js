@@ -15,7 +15,9 @@ Memory.prototype.constructor = Memory
 // Initialize memory
 Memory.prototype.init = function () {
   this.print()
+
   this.element.querySelector('.window-menu').addEventListener('click', this.menuClicked.bind(this))
+
   this.game = new Game(this.element.querySelector('.window-content'), 4, 4)
   this.game.init()
 }
@@ -23,6 +25,7 @@ Memory.prototype.init = function () {
 Memory.prototype.print = function () {
   CreateWindow.prototype.print.call(this)
   this.element.classList.add('memoryApp')
+
   let menu = this.element.querySelector('.window-menu')
   let alt1 = document.querySelector('#tempWindowAlt').content.cloneNode(true)
   alt1.querySelector('.menu-alt').appendChild(document.createTextNode('Start a new game'))

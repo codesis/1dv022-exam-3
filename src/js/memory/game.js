@@ -13,9 +13,10 @@ function Game (element, x, y) {
   this.visibleBricks = []
   this.tries = 0
   this.brickList = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8]
-  this.bricks = this.brickList.slice(0, (this.x * this.y))
+  this.images = this.brickList.slice(0, (this.x * this.y))
   this.clickFunc = this.click.bind(this)
 
+  this.shuffleBricks()
   this.addEventListeners()
 }
 // initialize the game
@@ -37,7 +38,8 @@ Game.prototype.init = function () {
 
   for (i = 0; i < this.y; i += 1) {
     for (let j = 0; j < this.x - 1; j += 2) {
-      this.board[i][j] = new Brick('' + i + j, this.bricks.pop())
+      this.board[i][j] = new Brick('' + i + j, this.images.pop())
+      this.board[i][j + 1] = new Brick('' + i + (j + 1), this.images.pop())
     }
   }
 }
@@ -45,11 +47,11 @@ Game.prototype.init = function () {
 Game.prototype.shuffleBricks = function () {
   let random
   let temporary
-  for (let i = 0; i < this.bricks.length; i += 1) {
-    temporary = this.bricks[i]
-    random = Math.floor(Math.random() * this.bricks.length)
-    this.bricks[i] = this.bricks[random]
-    this.bricks[random] = temporary
+  for (let i = 0; i < this.images.length; i += 1) {
+    temporary = this.images[i]
+    random = Math.floor(Math.random() * this.images.length)
+    this.images[i] = this.images[random]
+    this.images[random] = temporary
   }
 }
 // Event listeners
@@ -70,8 +72,8 @@ Game.prototype.turnBrick = function (element) {
       let x = xy.charAt(0)
       let y = xy.charAt(1)
 
-      element.classList.add('jpeg-' + this.board[x][y].jpegNr)
-      element.classList.add('jpeg')
+      element.classList.add('img-' + this.board[x][y].jpegNr)
+      element.classList.add('img')
 
       this.visibleBricks.push(this.board[x][y])
 
@@ -111,7 +113,7 @@ Game.prototype.turnBackBricks = function () {
 
   for (let i = 0; i < this.visibleBricks.length; i += 1) {
     tempBrick = this.visibleBricks[i]
-    this.element.querySelector('.brick-' + tempBrick.id).classList.remove('wrong', 'jpeg', 'jpeg-' + tempBrick.jpegNr)
+    this.element.querySelector('.brick-' + tempBrick.id).classList.remove('wrong', 'img', 'img-' + tempBrick.jpegNr)
   }
   this.visibleBricks = []
 }
