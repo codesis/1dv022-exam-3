@@ -20,7 +20,7 @@ function Game (element, x, y) {
   this.visibleCards = []
   this.turns = 0
   this.correctCount = 0
-  this.imageList = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7]
+  this.imageList = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8]
   this.images = this.imageList.slice(0, (this.y * this.x))
   this.clickFunc = this.click.bind(this)
 
@@ -39,7 +39,7 @@ function Game (element, x, y) {
  * Init the game
  */
 Game.prototype.init = function () {
-  var i = 0
+  let i = 0
 
   // init the empty board-array
   this.board = []
@@ -57,7 +57,7 @@ Game.prototype.init = function () {
 
   // push new cards to the board-array
   for (i = 0; i < this.y; i += 1) {
-    for (var j = 0; j < this.x - 1; j += 2) {
+    for (let j = 0; j < this.x - 1; j += 2) {
       this.board[i][j] = new Card('' + i + j, this.images.pop())
       this.board[i][j + 1] = new Card('' + i + (j + 1), this.images.pop())
     }
@@ -66,9 +66,9 @@ Game.prototype.init = function () {
 
 // Function to shuffle the images-array
 Game.prototype.shuffleImages = function () {
-  var temp
-  var rand
-  for (var i = 0; i < this.images.length; i += 1) {
+  let temp
+  let rand
+  for (let i = 0; i < this.images.length; i += 1) {
     temp = this.images[i]
     rand = Math.floor(Math.random() * this.images.length)
     this.images[i] = this.images[rand]
@@ -105,9 +105,9 @@ Game.prototype.click = function (event) {
 Game.prototype.turnCard = function (element) {
   if (this.visibleCards.length < 2 && !element.classList.contains('disable')) {
     if (element.classList.contains('card')) {
-      var yx = element.classList[0].split('-')[1]
-      var y = yx.charAt(0)
-      var x = yx.charAt(1)
+      let yx = element.classList[0].split('-')[1]
+      let y = yx.charAt(0)
+      let x = yx.charAt(1)
 
       // add classes to show the card
       element.classList.add('img-' + this.board[y][x].imgNr)
@@ -147,13 +147,13 @@ Game.prototype.checkIfCorrect = function () {
     }
   } else {
     // it was not correct, set the classes
-    for (var i = 0; i < this.visibleCards.length; i += 1) {
+    for (let i = 0; i < this.visibleCards.length; i += 1) {
       this.element.querySelector('.card-' + this.visibleCards[i].id).classList.add('wrong')
       this.element.querySelector('.card-' + this.visibleCards[i].id).classList.remove('disable')
     }
 
     // turn back the cards
-    setTimeout(this.turnBackCards.bind(this), 1000)
+    setTimeout(this.turnBackCards.bind(this), 700)
   }
 }
 
@@ -161,8 +161,8 @@ Game.prototype.checkIfCorrect = function () {
  * Function to turn back cards when wrong
  */
 Game.prototype.turnBackCards = function () {
-  var tempCard
-  for (var i = 0; i < this.visibleCards.length; i += 1) {
+  let tempCard
+  for (let i = 0; i < this.visibleCards.length; i += 1) {
     tempCard = this.visibleCards[i]
     this.element.querySelector('.card-' + tempCard.id).classList.remove('wrong', 'img', 'img-' + tempCard.imgNr)
   }
@@ -176,7 +176,7 @@ Game.prototype.turnBackCards = function () {
  */
 Game.prototype.gameOver = function () {
   this.totalTime = this.timer.stop()
-  var template = document.querySelector('#template-memory-gameover').content.cloneNode(true)
+  let template = document.querySelector('#template-memory-gameover').content.cloneNode(true)
   template.querySelector('.memory-turns').appendChild(document.createTextNode(this.turns))
   template.querySelector('.memory-time').appendChild(document.createTextNode(this.totalTime))
 
