@@ -30,7 +30,8 @@
   },
   "dependencies": {
     "@material/icon-button": "^0.44.0",
-    "npm": "^6.7.0"
+    "npm": "^6.7.0",
+    "ws": "^6.1.4"
   },
   "devDependencies": {
     "css-loader": "^1.0.0",
