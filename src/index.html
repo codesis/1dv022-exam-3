@@ -6,15 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script type="module" src="js/app.js"></script>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/memory.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
         <!-- TEMPLATES -->
     <template id="template-window">
         <div class="window">
             <div class="window-top">
-                <i class="material-icons md-24 window-icon no-pointer"></i><span class="window-title no-pointer"></span><span class="window-title-extra no-pointer"></span>
+                <i class="fas fa-user-astronaut window-icon "></i><span class="window-title"></span><span class="window-title-extra no-pointer"></span>
                 <div class="window-buttons">
-                    <span class="button exit-button" title="Close"><span class="exit-cross"><i class="fas fa-times-circle">close</i></span></span>
-                    <span class="button minimize-button" title="Minimize"><span class="minimize-icon"><i class="fas fa-chevron-circle-down">remove</i></span></span>
+                    <span class="button exit-button" title="Close"><span class="exit-cross"><i class="fas fa-times-circle"></i></span></span>
+                    <span class="button minimize-button" title="Minimize"><span class="minimize-icon"><i class="fas fa-chevron-circle-down"></i></span></span>
                 </div>
             </div>
             <div class="window-menu"></div>
@@ -25,12 +26,12 @@
     <template id="template-tooltip">
         <div class="tooltip-line">
             <span class="tooltip float-left"></span>
-            <i class="fas fa-times-circle" title="Close">close</i>
+            <i class="fas fa-times-circle tooltip-close" title="Close"></i>
         </div>
     </template>
 
     <template id="template-maximize-button">
-        <span class="button maximize-button" title="Maximize"><span class="maximize-icon"><i class="fas fa-plus">crop_din</i></span></span>
+        <span class="button maximize-button" title="Maximize"><span class="maximize-icon"><i class="fas fa-plus resize-icon"></i></span></span>
     </template>
 
     <template id="template-window-menu-alternative">
@@ -99,8 +100,6 @@
             </label><br>
             <label>Server: <input type="text" name="server">
             </label><br>
-            <label>Channel: <input type="text" name="channel" placeholder="optional">
-            </label><br>
             <label><input type="button" value="Connect" /></label>
         </form>
     </template>
@@ -113,65 +112,6 @@
         <span class="menu-info"></span>
     </template>
 
-    <template id="template-tetris-application">
-        <table class="tetris-grid">
-            <tbody class="tetris-grid-body">
-            </tbody>
-        </table>
-        <div class="tetris-side-container">
-            <h3>Next:</h3>
-            <table class="tetris-next-block">
-                <tbody>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                </tbody>
-            </table>
-
-            <div class="tetris-side-info">
-                <h3>Points:</h3>
-                <p class="tetris-points">0</p>
-                <h3>Level:</h3>
-                <p class="tetris-level">1</p>
-
-                <div class="sound-controller"><i id="tetris-music-toggle" class="material-icons mute"></i><p>Music FX</p></div>
-                <div class="sound-controller"><i id="tetris-sound-toggle" class="material-icons mute"></i><p>Sound FX</p></div>
-            </div>
-        </div>
-
-        <div class="tetris-paused hide">
-            <p>-paused-</p>
-            <p>Press ENTER to resume</p>
-        </div>
-
-        <div class="tetris-splash-screen">
-            <h3>Controls:</h3>
-            <ul>
-                <li><h4>Left/Right Arrow:</h4>Move block left/right</li>
-                <li><h4>Down Arrow: </h4>Drop block down faster</li>
-                <li><h4>Space: </h4>Drop block to the bottom</li>
-                <li><h4>Enter: </h4>Start/Pause/Resume</li>
-            </ul>
-        </div>
-    </template>
-
     <!-- END OF TEMPLATES -->
 </head>
 <body>
@@ -180,7 +120,7 @@
     <div class="launcher">
         <ul>
             <li value="reset">
-                <i class="fas fa-sync-alt">loop</i>
+                <i class="fas fa-sync-alt"></i>
                 <div class="tooltip-container">
                     <div class="tooltip-line">
                         <span class="tooltip-title">Refresh</span>
@@ -189,7 +129,7 @@
             </li>
 
             <li value="memory">
-                <i class="fas fa-gamepad">apps</i>
+                <i class="fas fa-gamepad"></i>
                 <div class="tooltip-container">
                     <div class="tooltip-line">
                         <span class="tooltip-title">Memory</span>
@@ -198,7 +138,7 @@
             </li>
 
             <li value="chat">
-                <i class="far fa-comments">chat</i>
+                <i class="far fa-comments"></i>
                 <div class="tooltip-container">
                     <div class="tooltip-line">
                         <span class="tooltip-title">Chat</span>

@@ -1,5 +1,10 @@
 'use strict'
-// Function to create a Create window
+
+/**
+ * Constructor for Create window
+ * @param options, object with the settings
+ * @constructor
+ */
 function CreateWindow (options) {
   this.id = options.id || '' + new Date().getTime()
   this.element = undefined
@@ -7,22 +12,22 @@ function CreateWindow (options) {
   this.y = options.y || 10
   this.tabIndex = options.tabIndex || 0
   this.title = options.title || this.id
-  this.icon = options.icon || 'bug_report'
+  this.icon = options.icon
   this.maximizable = options.maximizable || false
   this.keyActivated = options.keyActivated || false
   this.zIndex = options.zIndex
 }
 
 /**
-* Destroy the window
-*/
+ * Destroy the window
+ */
 CreateWindow.prototype.destroy = function () {
   document.querySelector('#main-frame').removeChild(this.element)
 }
 
 /**
-* Print the window
-*/
+ * Print the window
+ */
 CreateWindow.prototype.print = function () {
   // get the template and modify it to the params
   var template = document.querySelector('#template-window').content.cloneNode(true)
@@ -55,15 +60,15 @@ CreateWindow.prototype.print = function () {
 }
 
 /**
-* Minimize the window
-*/
+ * Minimize the window
+ */
 CreateWindow.prototype.minimize = function () {
   this.element.classList.toggle('minimized')
 }
 
 /**
-* Maximize the window
-*/
+ * Maximize the window
+ */
 CreateWindow.prototype.maximize = function () {
   this.element.classList.toggle('maximized')
 

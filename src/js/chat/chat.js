@@ -1,6 +1,13 @@
 'use strict'
 
-// Starting point for the chat application
+/**
+ * Constructor for the chat
+ * @param element - the elemnt to print to
+ * @param server - the server
+ * @param channel - the channel, default empty
+ * @param username - username
+ * @constructor
+ */
 function Chat (element, server, channel, username) {
   this.element = element
   this.server = server
@@ -11,7 +18,8 @@ function Chat (element, server, channel, username) {
   this.online = false
   this.messages = []
 
-  this.timeOptions = {
+  // the timestampoptions to use
+  this.timeStampOptions = {
     year: 'numeric',
     month: 'numeric',
     day: 'numeric',
@@ -20,40 +28,53 @@ function Chat (element, server, channel, username) {
   }
 }
 
+/**
+ * Function to init the basics
+ */
 Chat.prototype.init = function () {
   this.print()
 
+  // get the stored messages
   this.readStoredMessages()
 
+  // connect
   this.connectToServer()
 
+  // add listeners
   this.socket.addEventListener('message', this.newMessageFromServer.bind(this))
-  this.element.querySelector('.chat-sendBtn').addEventListener('click', this.formSubmit.bind(this))
+  this.element.querySelector('.chat-sendButton').addEventListener('click', this.formSubmit.bind(this))
   this.element.querySelector('form').addEventListener('submit', this.formSubmit.bind(this))
   this.element.querySelector('form').addEventListener('focusout', this.toggleFocus.bind(this))
-  this.element.querySelector('.inputField').addEventListener('focus', this.toggleFocus.bind(this))
-  this.element.querySelector('.inputField').addEventListener('input', this.checkInput.bind(this))
-  this.element.querySelector('.chat-sendBtn').addEventListener('focus', this.toggleFocus.bind(this))
+  this.element.querySelector('.chat-inputField').addEventListener('focus', this.toggleFocus.bind(this))
+  this.element.querySelector('.chat-inputField').addEventListener('input', this.checkInput.bind(this))
+  this.element.querySelector('.chat-sendButton').addEventListener('focus', this.toggleFocus.bind(this))
 }
 
+/**
+ * Function to print the chat
+ */
 Chat.prototype.print = function () {
-  let template = document.querySelector('#temp-chat-app').content.cloneNode(true)
+  // print the chat-template to this.element
+  var template = document.querySelector('#template-chat-application').content.cloneNode(true)
   this.element.querySelector('.window-content').appendChild(template)
 
-  let info = document.querySelector('#temp-window-menu-info').content.cloneNode(true)
-  let channelInfo = ''
+  // print info
+  var info = document.querySelector('#template-window-menu-info').content.cloneNode(true)
+  var channelInfo = ''
 
+  // handle the channels
   if (this.channel === '') {
     channelInfo = 'Non-specified'
   } else {
     channelInfo = this.channel
   }
 
-  let infoNode = document.createTextNode('#' + channelInfo.slice(0, 18) + '/' + this.username.slice(0, 10))
+  // show info
+  var infoNode = document.createTextNode('#' + channelInfo.slice(0, 18) + '/' + this.username.slice(0, 10))
   info.querySelector('.menu-info').appendChild(infoNode)
 
-  let menuInfo = this.element.querySelector('.menu-info')
-  let menu = this.element.querySelector('.window-menu')
+  var menuInfo = this.element.querySelector('.menu-info')
+  var menu = this.element.querySelector('.window-menu')
   if (menuInfo) {
     menu.replaceChild(info, menuInfo)
   } else {
@@ -61,43 +82,59 @@ Chat.prototype.print = function () {
   }
 }
 
+/**
+ * Function to connect to the server
+ */
 Chat.prototype.connectToServer = function () {
+  // change the classes to show whats happening
   this.element.querySelector('.window-icon').classList.remove('chat-offline')
   this.element.querySelector('.window-icon').classList.add('chat-connecting')
 
-  this.socket = new WebSocket('ws://' + this.server, 'charcords')
+  // start new websocket
+  this.socket = new window.WebSocket('ws://' + this.server, 'charcords')
 
+  // add listeners to the socket
   this.socket.addEventListener('open', this.setOnline.bind(this))
   this.socket.addEventListener('error', this.setOffline.bind(this))
 }
 
+// function to set chat offline if error
 Chat.prototype.setOffline = function () {
   this.element.querySelector('.window-icon').classList.remove('chat-connecting')
   this.element.querySelector('.window-icon').classList.add('chat-offline')
   this.online = false
 
-  let data = {
-    username: 'OfflineMsg',
-    data: "Wasn't able to connect to server."
+  // print message in the chat from "glados" to show that the connection failed
+  var data = {
+    username: 'GlaDos',
+    data: 'Could not connect to server... You can still read your chat history'
   }
   this.printNewMessage(data)
 }
 
+/**
+ * Function to set chat online if connected
+ */
 Chat.prototype.setOnline = function () {
   this.online = true
-  this.element.querySelector('.window-icon').classList.remove('chat-connection')
+  this.element.querySelector('.window-icon').classList.remove('chat-connecting')
   this.element.querySelector('.window-icon').classList.add('chat-online')
 }
 
+/**
+ * Function to handle the messages from server
+ * @param event - the datastring from server
+ */
 Chat.prototype.newMessageFromServer = function (event) {
-  let data = JSON.parse(event.data)
-
+  var data = JSON.parse(event.data)
   if (data.type === 'message') {
-    data.timestamp = new Date().toLocaleDateString('sv-se', this.timeOptions)
+    // add timestamp to data-object
+    data.timestamp = new Date().toLocaleDateString('sv-se', this.timeStampOptions)
     if (!data.channel) {
       data.channel = ''
     }
 
+    // check the channel and att the message if its the same
     if (data.channel === this.channel) {
       this.printNewMessage(data)
       this.saveNewMessage(data)
@@ -105,142 +142,201 @@ Chat.prototype.newMessageFromServer = function (event) {
   }
 }
 
+/**
+ * Function to submit a message
+ * @param event - the event from form
+ */
 Chat.prototype.formSubmit = function (event) {
   if (event) {
+    // dont submit the form standard-way
     event.preventDefault()
   }
 
   if (this.online) {
-    let input = this.element.querySelector('.inputField').value
+    // get the input from form
+    var input = this.element.querySelector('.chat-inputField').value
+
     if (input.length > 1) {
+      // check if the last char was enter, remove it
       if (input.charCodeAt(input.length - 1) === 10) {
         input = input.slice(0, -1)
       }
 
-      let msg = {
-        'type': 'message',
-        'data': input,
-        'username': this.username,
-        'channel': this.channel,
-        'key': this.key
+      // the message is at least one char, create object to send
+      var msg = {
+        type: 'message',
+        data: input,
+        username: this.username,
+        channel: this.channel,
+        key: this.key
       }
 
+      // send the object to server
       this.socket.send(JSON.stringify(msg))
 
+      // disable the button and reset the form
+      this.element.querySelector('.chat-sendButton').setAttribute('disabled', 'disabled')
       this.element.querySelector('form').reset()
-      this.element.querySelector('.chat-sendBtn').setAttribute('disabled', 'disabled')
     }
   }
 }
 
+/**
+ * Function to print message to the window
+ * @param data - the data-string to print
+ */
 Chat.prototype.printNewMessage = function (data) {
-  let container = this.element.querySelector('.chat-message-list')
-  let scrolled = false
+  // get the container to check scrolled
+  var container = this.element.querySelector('.chat-message-list')
+  var scrolled = false
 
+  // check if the user has scrolled up
   if (container.scrollTop !== (container.scrollHeight - container.offsetHeight)) {
     scrolled = true
   }
 
-  let template = document.querySelector('#temp-chat-message-line').content.cloneNode(true)
-  let usernameNode = document.createTextNode(data.username + ': ')
-  let messageNode = this.parseMessage(data.data)
+  // get the template for new message and modify it
+  var template = document.querySelector('#template-chat-message-line').content.cloneNode(true)
+  var usernameNode = document.createTextNode(data.username + ': ')
+  var messageNode = this.parseMessage(data.data)
 
   template.querySelector('.chat-message').appendChild(messageNode)
-
   if (data.timestamp) {
+    // add the timestamp as title
     template.querySelector('.chat-message-line').setAttribute('title', data.timestamp)
   }
 
   if (this.username === data.username) {
+    // it's my message - add class to show that
     template.querySelector('li').classList.add('chat-bubble-me')
   } else {
+    // message isn't mine, show that via class
     template.querySelector('li').classList.add('chat-bubble')
     template.querySelector('.chat-username').appendChild(usernameNode)
   }
 
+  // append the new message
   this.element.querySelector('.chat-message-list ul').appendChild(template)
 
+  // autoscroll to bottom
   this.scrollToBottom(scrolled)
 }
 
+/**
+ * Function to autoscroll when new message
+ * @param scrolled
+ */
 Chat.prototype.scrollToBottom = function (scrolled) {
-  let container = this.element.querySelector('.chat-message-list')
+  var container = this.element.querySelector('.chat-message-list')
   if (!scrolled) {
+    // If user was at bottom, auto-scroll down to the new bottom after new message
     container.scrollTop = container.scrollHeight
   }
 }
 
+/**
+ * Function to save the new message to local storage for history
+ * @param data
+ */
 Chat.prototype.saveNewMessage = function (data) {
-  let newMsg = {
+  var newMsg = {
     username: data.username,
     data: data.data,
     timestamp: data.timestamp
   }
+
+  // add the new message to the array and save it
   this.messages.push(newMsg)
   window.localStorage.setItem('chat-' + this.channel, JSON.stringify(this.messages))
 }
 
+/**
+ * Function to read the stored messages from local storage and print them
+ */
 Chat.prototype.readStoredMessages = function () {
   if (window.localStorage.getItem('chat-' + this.channel)) {
-    let messages = window.localStorage.getItem('chat-' + this.channel)
+    var messages = window.localStorage.getItem('chat-' + this.channel)
     this.messages = JSON.parse(messages)
 
-    for (let i = 0; i < this.messages.length; i += 1) {
+    // print all the messages from history
+    for (var i = 0; i < this.messages.length; i += 1) {
       this.printNewMessage(this.messages[i])
     }
 
+    // add end-of-history separator
     if (this.messages.length > 0) {
-      let separator = document.querySelector('#temp-chat-history-separator').content.cloneNode(true)
+      var separator = document.querySelector('#template-chat-history-separator').content.cloneNode(true)
       this.element.querySelector('.chat-message-list ul').appendChild(separator)
 
-      let container = this.element.querySelector('.chat-message-list')
+      // scroll to bottom
+      var container = this.element.querySelector('.chat-message-list')
       container.scrollTop = container.scrollHeight
     }
   }
 }
 
+/**
+ * Function to toggle the focus
+ * needed since the window drops focus when form in window is focused
+ */
 Chat.prototype.toggleFocus = function () {
   this.element.classList.toggle('focused-window')
 }
 
+/**
+ * Function to check the input in textarea
+ * @param event
+ */
 Chat.prototype.checkInput = function (event) {
-  let input = event.target.value
+  // get the input
+  var input = event.target.value
 
+  // handle that the button should only be clickable if input is one or more chars
   if (input.length > 0) {
-    this.element.querySelector('.chat-sendBtn').removeAttribute('disabled')
+    this.element.querySelector('.chat-sendButton').removeAttribute('disabled')
   } else {
-    this.element.querySelector('.chat-sendBtn').setAttribute('disabled', 'disabled')
+    this.element.querySelector('.chat-sendButton').setAttribute('disabled', 'disabled')
   }
 
+  // check if the last char was enter, and submit
   if (input.charCodeAt(input.length - 1) === 10) {
     this.formSubmit()
   }
 
   if (input.charCodeAt(0) === 10) {
+    // first char is enter, reset form and disable send-button
     this.element.querySelector('form').reset()
-    this.element.querySelector('.chat-sendBtn').setAttribute('disabled', 'disabled')
+    this.element.querySelector('.chat-sendButton').setAttribute('disabled', 'disabled')
   }
 }
 
+/**
+ * Function to find and parse message to clickable links and emojis
+ * @param text - the message
+ * @returns {*} - documentFragment to append as message
+ */
 Chat.prototype.parseMessage = function (text) {
-  let frag = document.createDocumentFragment()
-  let link
-  let emoji
-  let textNode
+  var frag = document.createDocumentFragment()
+  var link
+  var emoji
+  var textNode
 
-  let words = text.split(' ')
+  // split message into words
+  var words = text.split(' ')
 
-  for (let i = 0; i < words.length; i += 1) {
+  for (var i = 0; i < words.length; i += 1) {
+    // search for links
     if (words[i].slice(0, 7) === 'http://') {
       link = words[i].slice(7)
-      frag = this.addLinkOrEmoji(frag, 'link', link)
+      frag = this.addLinkOrEmojiToFragment(frag, 'link', link)
     } else if (words[i].slice(0, 8) === 'https://') {
       link = words[i].slice(7)
-      frag = this.addLinkOrEmoji(frag, 'link', link)
+      frag = this.addLinkOrEmojiToFragment(frag, 'link', link)
     } else if (words[i].charAt(0) === ':' || words[i].charAt(0) === ';') {
       emoji = words[i]
-      frag = this.addLinkOrEmoji(frag, 'emoji', emoji)
+      frag = this.addLinkOrEmojiToFragment(frag, 'emoji', emoji)
     } else {
+      // append the word as it is
       textNode = document.createTextNode(words[i] + ' ')
       frag.appendChild(textNode)
     }
@@ -249,13 +345,21 @@ Chat.prototype.parseMessage = function (text) {
   return frag
 }
 
-Chat.prototype.addLinkOrEmoji = function (frag, type, data) {
-  let textNode
+/**
+ * Function to add the links or emoji to fragment
+ * @param frag, the fragment
+ * @param type, type of the thing to parse
+ * @param data, data to parse
+ * @returns {*}, the fragment
+ */
+Chat.prototype.addLinkOrEmojiToFragment = function (frag, type, data) {
+  var textNode
   if (type === 'link') {
-    let aTag = document.createElement('a')
+    // link found, create a-element
+    var aTag = document.createElement('a')
     aTag.setAttribute('href', '//' + data)
     aTag.setAttribute('target', '_blank')
-    let linkNode = document.createTextNode(data)
+    var linkNode = document.createTextNode(data)
 
     aTag.appendChild(linkNode)
     textNode = document.createTextNode(' ')
@@ -263,7 +367,8 @@ Chat.prototype.addLinkOrEmoji = function (frag, type, data) {
     frag.appendChild(aTag)
     frag.appendChild(textNode)
   } else if (type === 'emoji') {
-    let spanTag = this.parseEmoji(data)
+    // emoji found, create it
+    var spanTag = this.parseEmojis(data)
 
     textNode = document.createTextNode(' ')
 
@@ -274,60 +379,96 @@ Chat.prototype.addLinkOrEmoji = function (frag, type, data) {
   return frag
 }
 
-Chat.prototype.parseEmoji = function (emoji) {
-  let template = document.querySelector('#temp-chat-emoji').content.cloneNode(true)
-  let em = template.querySelector('.emoji')
-
+/**
+ * Function to parse the emoji
+ * @param emoji
+ * @returns {Element} the emoji-element
+ */
+Chat.prototype.parseEmojis = function (emoji) {
+  var template = document.querySelector('#template-chat-emoji').content.cloneNode(true)
+  var elem = template.querySelector('.emoji')
   switch (emoji) {
-    case ':)': {
-      em.classList.add('emoji-smiley')
+    case ':)':
+    case ':-)': {
+      elem.classList.add('emoji-smiley')
       break
     }
-    case ':D': {
-      em.classList.add('emoji-happy')
+
+    case ':D':
+    case ':-D': {
+      elem.classList.add('emoji-happy')
       break
     }
-    case ';)': {
-      em.classList.add('emoji-flirt')
+
+    case ';)':
+    case ';-)': {
+      elem.classList.add('emoji-flirt')
       break
     }
-    case ':O': {
-      em.classList.add('emoji-surprised')
+
+    case ':O':
+    case ':-O': {
+      elem.classList.add('emoji-surprised')
       break
     }
-    case ':P': {
-      em.classList.add('emoji-tounge')
+
+    case ':P':
+    case ':-P': {
+      elem.classList.add('emoji-tounge')
       break
     }
+
     case ':@': {
-      em.classList.add('emoji-angry')
+      elem.classList.add('emoji-angry')
       break
     }
-    case ':S': {
-      em.classList.add('emoji-confused')
+
+    case ':S':
+    case ':-S': {
+      elem.classList.add('emoji-confused')
       break
     }
-    case ':(': {
-      em.classList.add('emoji-sad')
+
+    case ':(':
+    case ':-(': {
+      elem.classList.add('emoji-sad')
       break
     }
-    case ":'(": {
-      em.classList.add('emoji-crying')
+
+    case ":'(":
+    case ":'-(": {
+      elem.classList.add('emoji-crying')
       break
     }
+
+    case ':L': {
+      elem.classList.add('emoji-heart')
+      break
+    }
+
+    case ':3': {
+      elem.classList.add('emoji-cat')
+      break
+    }
+
     default: {
-      em = document.createTextNode(emoji)
+      elem = document.createTextNode(emoji)
     }
   }
 
-  return em
+  return elem
 }
 
+/**
+ * Function to clear the history
+ */
 Chat.prototype.clearHistory = function () {
+  // remove from storage and reset array
   window.localStorage.removeItem('chat-' + this.channel)
   this.messages = []
 
-  let listElement = this.element.querySelector('ul')
+  // remove elements from DOM
+  var listElement = this.element.querySelector('ul')
   while (listElement.hasChildNodes()) {
     listElement.removeChild(listElement.firstChild)
   }

@@ -1,9 +1,14 @@
 'use strict'
 
-// Function to create a brick
-function Brick (id, jpegNr) {
+/**
+ * Constructor for memory card
+ * @param id - id of card
+ * @param imgNr - image number
+ * @constructor
+ */
+function Card (id, imgNr) {
   this.id = id
-  this.jpegNr = jpegNr
+  this.imgNr = imgNr
 }
 
-export default Brick
+export default Card
