@@ -176,9 +176,9 @@ Game.prototype.turnBackCards = function () {
  */
 Game.prototype.gameOver = function () {
   this.totalTime = this.timer.stop()
-  var template = document.querySelector('#template--gameover').content.cloneNode(true)
-  template.querySelector('.-turns').appendChild(document.createTextNode(this.turns))
-  template.querySelector('.-time').appendChild(document.createTextNode(this.totalTime))
+  var template = document.querySelector('#template-memory-gameover').content.cloneNode(true)
+  template.querySelector('.memory-turns').appendChild(document.createTextNode(this.turns))
+  template.querySelector('.memory-time').appendChild(document.createTextNode(this.totalTime))
 
   this.element.appendChild(template)
 }

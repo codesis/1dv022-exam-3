@@ -238,7 +238,6 @@ Memory.prototype.keyLeft = function () {
  */
 Memory.prototype.keyUp = function () {
   // find next row and card
-  let row
   let rowY
 
   if (this.markedCard.parentNode.previousElementSibling) {
@@ -247,7 +246,6 @@ Memory.prototype.keyUp = function () {
   } else {
     // begin from bottom
     let rows = this.element.querySelectorAll('.row')
-    row = rows[rows.length - 1]
     rowY = rows.length - 1
   }
 
