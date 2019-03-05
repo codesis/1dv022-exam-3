@@ -38,12 +38,12 @@ Launcher.prototype.init = function () {
  * @param event
  */
 Launcher.prototype.launcherClick = function (event) {
-  var value
-  var icon
-  var title
+  let value
+  let icon
+  let title
 
   // Get the element that got clicked
-  var element = this.getClickedLauncherElement(event.target)
+  let element = this.getClickedLauncherElement(event.target)
 
   if (element) {
     // get value from the element
@@ -51,7 +51,7 @@ Launcher.prototype.launcherClick = function (event) {
   }
 
   if (value) {
-    var switchTo = value.split(':')
+    let switchTo = value.split(':')
 
     // check if the click is in the "running-apps"-section.
     if (switchTo[0] === 'id') {
@@ -79,7 +79,7 @@ Launcher.prototype.launcherClick = function (event) {
  * @returns DOM-element
  */
 Launcher.prototype.getClickedLauncherElement = function (target) {
-  var element
+  let element
 
   if (target.getAttribute('value')) {
     element = target
@@ -98,11 +98,11 @@ Launcher.prototype.getClickedLauncherElement = function (target) {
  * @param title - what title to use
  */
 Launcher.prototype.startApplication = function (type, icon, title) {
-  var marginX = 10 * (this.desktop.offsetX)
-  var marginY = 10 * (this.desktop.offsetY)
+  let marginX = 10 * (this.desktop.offsetX)
+  let marginY = 10 * (this.desktop.offsetY)
 
   // create the settings-object
-  var appOptions = {
+  let appOptions = {
     id: 'win-' + this.desktop.serialNumber,
     x: marginX,
     y: marginY,
@@ -114,11 +114,11 @@ Launcher.prototype.startApplication = function (type, icon, title) {
     keyActivated: false
   }
 
-  var newApp = this.createApplication(type, appOptions)
+  let newApp = this.createApplication(type, appOptions)
 
   if (newApp) {
     // add listener to the window-buttons
-    var buttons = document.querySelector('#' + newApp.id + ' .window-buttons')
+    let buttons = document.querySelector('#' + newApp.id + ' .window-buttons')
     buttons.addEventListener('click', this.desktop.windowButtonClick.bind(this.desktop))
 
     // save the object to windows-array
@@ -139,7 +139,7 @@ Launcher.prototype.startApplication = function (type, icon, title) {
 }
 
 Launcher.prototype.createApplication = function (type, appOptions) {
-  var newApp
+  let newApp
 
   // check what app to start and start it, add eventually maximizable and keyActivated
   switch (type) {
@@ -178,11 +178,11 @@ Launcher.prototype.createApplication = function (type, appOptions) {
  * @param app - the app-object to be checked
  */
 Launcher.prototype.checkBounds = function (app) {
-  var windowW = window.innerWidth
-  var windowH = window.innerHeight
+  let windowW = window.innerWidth
+  let windowH = window.innerHeight
 
-  var appRight = app.x + parseInt(app.element.offsetWidth)
-  var appBottom = app.y + parseInt(app.element.offsetHeight)
+  let appRight = app.x + parseInt(app.element.offsetWidth)
+  let appBottom = app.y + parseInt(app.element.offsetHeight)
 
   // check if the app-window is out of bounds and get it into bounds
   if (appRight > windowW || app.x < 0) {
@@ -207,7 +207,7 @@ Launcher.prototype.checkBounds = function (app) {
  * @param id - the window-id to set focus on
  */
 Launcher.prototype.switchToWindow = function (id) {
-  var window = document.querySelector('#' + id)
+  let window = document.querySelector('#' + id)
   if (window) {
     // if minimized, show it again
     if (window.classList.contains('minimized')) {
@@ -226,8 +226,8 @@ Launcher.prototype.switchToWindow = function (id) {
  */
 Launcher.prototype.addRunningApp = function (type, app) {
   // get the tooltip-container for the app and add it to the list
-  var container = document.querySelector("li[value='" + type + "'] .tooltip-container")
-  var template = document.querySelector('#template-tooltip').content.cloneNode(true)
+  let container = document.querySelector("li[value='" + type + "'] .tooltip-container")
+  let template = document.querySelector('#template-tooltip').content.cloneNode(true)
   template.querySelector('.tooltip').appendChild(document.createTextNode(app.title + '(' + app.id + ')'))
   template.querySelector('.tooltip').setAttribute('value', 'id:' + app.id)
   template.querySelector('.tooltip-close').setAttribute('value', 'id:' + app.id)
@@ -239,15 +239,15 @@ Launcher.prototype.addRunningApp = function (type, app) {
  * Function to update the clock
  */
 Launcher.prototype.updateClock = function () {
-  var dateObj = new Date()
-  var date = dateObj.toLocaleDateString('sv-se', this.dateStampOptions)
-  var time = dateObj.toLocaleTimeString('sv-se', this.timeStampOptions)
+  let dateObj = new Date()
+  let date = dateObj.toLocaleDateString('sv-se', this.dateStampOptions)
+  let time = dateObj.toLocaleTimeString('sv-se', this.timeStampOptions)
 
-  var timeElem = document.querySelector('.launcher-clock-time')
-  var dateElem = document.querySelector('.launcher-clock-date')
+  let timeElem = document.querySelector('.launcher-clock-time')
+  let dateElem = document.querySelector('.launcher-clock-date')
 
-  var timeNode = document.createTextNode(time)
-  var dateNode = document.createTextNode(date)
+  let timeNode = document.createTextNode(time)
+  let dateNode = document.createTextNode(date)
 
   timeElem.replaceChild(timeNode, timeElem.firstChild)
   dateElem.replaceChild(dateNode, dateElem.firstChild)

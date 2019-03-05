@@ -5,9 +5,8 @@ import Card from './brick.js'
 import Timer from './timer.js'
 
 /**
- * Constructorfunction for the game
  * @param element - element to print to
- * @param x - amount of cols
+ * @param x - amount of columns
  * @param y - amount of rows
  * @constructor
  */
@@ -24,24 +23,21 @@ function Game (element, x, y) {
   this.images = this.imageList.slice(0, (this.y * this.x))
   this.clickFunc = this.click.bind(this)
 
-  // start new timer
+  // start new timer when the game begins (right away)
   this.timer = new Timer()
   this.timer.start()
 
   this.totalTime = 0
 
-  // shuffle and add eventlisteners
+  // shuffle and add event listeners
   this.shuffleImages()
   this.addEvents()
 }
 
-/**
- * Init the game
- */
+// Start the game
 Game.prototype.init = function () {
   let i = 0
 
-  // init the empty board-array
   this.board = []
   if (this.x > this.y) {
     for (i = 0; i < this.x; i += 1) {
@@ -55,7 +51,7 @@ Game.prototype.init = function () {
 
   this.visibleCards = []
 
-  // push new cards to the board-array
+  // puts the cards into the game board
   for (i = 0; i < this.y; i += 1) {
     for (let j = 0; j < this.x - 1; j += 2) {
       this.board[i][j] = new Card('' + i + j, this.images.pop())
@@ -64,7 +60,7 @@ Game.prototype.init = function () {
   }
 }
 
-// Function to shuffle the images-array
+// Shuffles the images in the memory game
 Game.prototype.shuffleImages = function () {
   let temp
   let rand
@@ -76,32 +72,22 @@ Game.prototype.shuffleImages = function () {
   }
 }
 
-/**
- * Function to add the events needed
- */
+// Adding event listener
 Game.prototype.addEvents = function () {
   this.element.addEventListener('click', this.clickFunc)
 }
 
-/**
- * Function to remove the events
- */
+// Removing event listener
 Game.prototype.removeEvents = function () {
   this.element.removeEventListener('click', this.clickFunc)
 }
 
-/**
- * Function to handle the clicks
- * @param event - the click-event
- */
+// Function for when the user clicks
 Game.prototype.click = function (event) {
   this.turnCard(event.target)
 }
 
-/**
- * Function to turn the given carde
- * @param element - the card to turn
- */
+// For when a brick/card is clicked, it will turn
 Game.prototype.turnCard = function (element) {
   if (this.visibleCards.length < 2 && !element.classList.contains('disable')) {
     if (element.classList.contains('card')) {
@@ -119,16 +105,14 @@ Game.prototype.turnCard = function (element) {
       this.element.querySelector('.card-' + this.board[y][x].id).classList.add('disable')
 
       if (this.visibleCards.length === 2) {
-        // check fi the pair is the same
+        // check if the pair are matching
         this.checkIfCorrect()
       }
     }
   }
 }
 
-/**
- * Function to check if the pair is the same
- */
+// Checks if the two bricks/cards are a matching pair
 Game.prototype.checkIfCorrect = function () {
   this.turns += 1
   if (this.visibleCards[0].imgNr === this.visibleCards[1].imgNr) {
@@ -142,7 +126,7 @@ Game.prototype.checkIfCorrect = function () {
     this.correctCount += 1
 
     if (this.correctCount === (this.x * this.y / 2)) {
-      // the game is over since the correctcount is the amount of cards
+      // the game is over since the correct count is the amount of cards
       this.gameOver()
     }
   } else {
@@ -157,9 +141,7 @@ Game.prototype.checkIfCorrect = function () {
   }
 }
 
-/**
- * Function to turn back cards when wrong
- */
+// For when the two bricks are not a matching pair
 Game.prototype.turnBackCards = function () {
   let tempCard
   for (let i = 0; i < this.visibleCards.length; i += 1) {
@@ -171,9 +153,7 @@ Game.prototype.turnBackCards = function () {
   this.visibleCards = []
 }
 
-/**
- * Function to show the game over
- */
+// For when the user has completed the game
 Game.prototype.gameOver = function () {
   this.totalTime = this.timer.stop()
   let template = document.querySelector('#template-memory-gameover').content.cloneNode(true)

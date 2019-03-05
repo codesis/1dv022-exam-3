@@ -20,7 +20,7 @@ Timer.prototype.start = function () {
  * @returns {number}, the difference in seconds
  */
 Timer.prototype.stop = function () {
-  var now = new Date().getTime()
+  let now = new Date().getTime()
 
   return (now - this.startTime) / 1000
 }

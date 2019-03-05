@@ -60,12 +60,12 @@ Chat.prototype.init = function () {
 */
 Chat.prototype.print = function () {
   // print the chat-template to this.element
-  var template = document.querySelector('#template-chat-app').content.cloneNode(true)
+  let template = document.querySelector('#template-chat-app').content.cloneNode(true)
   this.element.querySelector('.window-content').appendChild(template)
 
   // print info
-  var info = document.querySelector('#template-window-menu-info').content.cloneNode(true)
-  var channelInfo = ''
+  let info = document.querySelector('#template-window-menu-info').content.cloneNode(true)
+  let channelInfo = ''
 
   // handle the channels
   if (this.channel === '') {
@@ -75,11 +75,11 @@ Chat.prototype.print = function () {
   }
 
   // show info
-  var infoNode = document.createTextNode('#' + channelInfo.slice(0, 18) + '/' + this.username.slice(0, 10))
+  let infoNode = document.createTextNode('#' + channelInfo.slice(0, 18) + '/' + this.username.slice(0, 10))
   info.querySelector('.menu-info').appendChild(infoNode)
 
-  var menuInfo = this.element.querySelector('.menu-info')
-  var menu = this.element.querySelector('.window-menu')
+  let menuInfo = this.element.querySelector('.menu-info')
+  let menu = this.element.querySelector('.window-menu')
   if (menuInfo) {
     menu.replaceChild(info, menuInfo)
   } else {
@@ -110,7 +110,7 @@ Chat.prototype.setOffline = function () {
   this.online = false
 
   // print message in the chat to show that the connection failed
-  var data = {
+  let data = {
     username: 'Offline',
     data: 'Connection failed'
   }
@@ -131,7 +131,7 @@ Chat.prototype.setOnline = function () {
 * @param event - the datastring from server
 */
 Chat.prototype.newMessageFromServer = function (event) {
-  var data = JSON.parse(event.data)
+  let data = JSON.parse(event.data)
   if (data.type === 'message') {
     // add timestamp to data-object
     data.timestamp = new Date().toLocaleDateString('sv-se', this.timeStampOptions)
@@ -159,7 +159,7 @@ Chat.prototype.formSubmit = function (event) {
 
   if (this.online) {
     // get the input from form
-    var input = this.element.querySelector('.chat-inputField').value
+    let input = this.element.querySelector('.chat-inputField').value
 
     if (input.length > 1) {
       // check if the last char was enter, remove it
@@ -168,7 +168,7 @@ Chat.prototype.formSubmit = function (event) {
       }
 
       // the message is at least one char, create object to send
-      var msg = {
+      let msg = {
         type: 'message',
         data: input,
         username: this.username,
@@ -192,8 +192,8 @@ Chat.prototype.formSubmit = function (event) {
 */
 Chat.prototype.printNewMessage = function (data) {
   // get the container to check scrolled
-  var container = this.element.querySelector('.chat-message-list')
-  var scrolled = false
+  let container = this.element.querySelector('.chat-message-list')
+  let scrolled = false
 
   // check if the user has scrolled up
   if (container.scrollTop !== (container.scrollHeight - container.offsetHeight)) {
@@ -201,9 +201,9 @@ Chat.prototype.printNewMessage = function (data) {
   }
 
   // get the template for new message and modify it
-  var template = document.querySelector('#template-chat-message-line').content.cloneNode(true)
-  var usernameNode = document.createTextNode(data.username + ': ')
-  var messageNode = this.parseMessage(data.data)
+  let template = document.querySelector('#template-chat-message-line').content.cloneNode(true)
+  let usernameNode = document.createTextNode(data.username + ': ')
+  let messageNode = this.parseMessage(data.data)
 
   template.querySelector('.chat-message').appendChild(messageNode)
   if (data.timestamp) {
@@ -232,7 +232,7 @@ Chat.prototype.printNewMessage = function (data) {
 * @param scrolled
 */
 Chat.prototype.scrollToBottom = function (scrolled) {
-  var container = this.element.querySelector('.chat-message-list')
+  let container = this.element.querySelector('.chat-message-list')
   if (!scrolled) {
     // If user was at bottom, auto-scroll down to the new bottom after new message
     container.scrollTop = container.scrollHeight
@@ -244,7 +244,7 @@ Chat.prototype.scrollToBottom = function (scrolled) {
 * @param data
 */
 Chat.prototype.saveNewMessage = function (data) {
-  var newMsg = {
+  let newMsg = {
     username: data.username,
     data: data.data,
     timestamp: data.timestamp
@@ -260,21 +260,21 @@ Chat.prototype.saveNewMessage = function (data) {
 */
 Chat.prototype.readStoredMessages = function () {
   if (window.localStorage.getItem('chat-' + this.channel)) {
-    var messages = window.localStorage.getItem('chat-' + this.channel)
+    let messages = window.localStorage.getItem('chat-' + this.channel)
     this.messages = JSON.parse(messages)
 
     // print all the messages from history
-    for (var i = 0; i < this.messages.length; i += 1) {
+    for (let i = 0; i < this.messages.length; i += 1) {
       this.printNewMessage(this.messages[i])
     }
 
     // add end-of-history separator
     if (this.messages.length > 0) {
-      var separator = document.querySelector('#template-chat-history-separator').content.cloneNode(true)
+      let separator = document.querySelector('#template-chat-history-separator').content.cloneNode(true)
       this.element.querySelector('.chat-message-list ul').appendChild(separator)
 
       // scroll to bottom
-      var container = this.element.querySelector('.chat-message-list')
+      let container = this.element.querySelector('.chat-message-list')
       container.scrollTop = container.scrollHeight
     }
   }
@@ -294,7 +294,7 @@ Chat.prototype.toggleFocus = function () {
 */
 Chat.prototype.checkInput = function (event) {
   // get the input
-  var input = event.target.value
+  let input = event.target.value
 
   // handle that the button should only be clickable if input is one or more chars
   if (input.length > 0) {
@@ -321,15 +321,15 @@ Chat.prototype.checkInput = function (event) {
 * @returns {*} - documentFragment to append as message
 */
 Chat.prototype.parseMessage = function (text) {
-  var frag = document.createDocumentFragment()
-  var link
-  var emoji
-  var textNode
+  let frag = document.createDocumentFragment()
+  let link
+  let emoji
+  let textNode
 
   // split message into words
-  var words = text.split(' ')
+  let words = text.split(' ')
 
-  for (var i = 0; i < words.length; i += 1) {
+  for (let i = 0; i < words.length; i += 1) {
     // search for links
     if (words[i].slice(0, 7) === 'http://') {
       link = words[i].slice(7)
@@ -358,7 +358,7 @@ Chat.prototype.clearHistory = function () {
   this.messages = []
 
   // remove elements from DOM
-  var listElement = this.element.querySelector('ul')
+  let listElement = this.element.querySelector('ul')
   while (listElement.hasChildNodes()) {
     listElement.removeChild(listElement.firstChild)
   }

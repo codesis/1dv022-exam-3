@@ -3,8 +3,7 @@ import CreateWindow from '../window.js'
 import Game from './game.js'
 
 /**
- * Contructor function for the memory m
- * @param options - the settings
+ * @param options - the settings (no of columns&rows)
  * @constructor
  */
 function Memory (options) {
@@ -19,44 +18,36 @@ function Memory (options) {
 Memory.prototype = Object.create(CreateWindow.prototype)
 Memory.prototype.constructor = Memory
 
-/**
- * Function to init the basics
- */
+// For initializing the game when the user clicks on the icon
 Memory.prototype.init = function () {
   this.print()
 
   this.element.querySelector('.window-menu').addEventListener('click', this.menuClicked.bind(this))
 
-  // create new game and init it
   this.game = new Game(this.element.querySelector('.window-content'), 4, 4)
   this.game.init()
 }
 
-/**
- * Function to print the applictaion
- */
+// Prints the game to the window
 Memory.prototype.print = function () {
   CreateWindow.prototype.print.call(this)
   this.element.classList.add('memory-app')
 
   // add the menu alternatives
-  var menu = this.element.querySelector('.window-menu')
-  var alt1 = document.querySelector('#template-window-menu-alternative').content.cloneNode(true)
+  let menu = this.element.querySelector('.window-menu')
+  let alt1 = document.querySelector('#template-window-menu-alternative').content.cloneNode(true)
   alt1.querySelector('.menu-alternative').appendChild(document.createTextNode('New Game'))
 
-  var alt2 = document.querySelector('#template-window-menu-alternative').content.cloneNode(true)
+  let alt2 = document.querySelector('#template-window-menu-alternative').content.cloneNode(true)
   alt2.querySelector('.menu-alternative').appendChild(document.createTextNode('Settings'))
 
   menu.appendChild(alt1)
   menu.appendChild(alt2)
 }
 
-/**
- * Function to handle the menu-clicked
- * @param event - click-event
- */
+// For what happens when the user clicks setting or new game
 Memory.prototype.menuClicked = function (event) {
-  var target
+  let target
   if (event.target.tagName.toLowerCase() === 'a') {
     target = event.target.textContent.toLowerCase()
   }
@@ -84,10 +75,7 @@ Memory.prototype.menuClicked = function (event) {
   }
 }
 
-/**
- * Function to restart the game
- * @param value - the board-size (eg. 4x4)
- */
+// For what happens when the user clicks restart
 Memory.prototype.restart = function (value) {
   // split value to get x/y
   if (value) {
@@ -95,8 +83,8 @@ Memory.prototype.restart = function (value) {
   }
 
   // find y and x from split
-  var y = this.boardSize[1]
-  var x = this.boardSize[0]
+  let y = this.boardSize[1]
+  let x = this.boardSize[0]
 
   // clear the content
   this.clearContent()
@@ -109,13 +97,11 @@ Memory.prototype.restart = function (value) {
   this.game.init()
 }
 
-/**
- * Function to show/hide the settings
- */
+// For when the user clicks on settings
 Memory.prototype.menuSettings = function () {
   if (!this.settingsOpen) {
     // show the settings
-    var template = document.querySelector('#template-settings').content.cloneNode(true)
+    let template = document.querySelector('#template-settings').content.cloneNode(true)
     template.querySelector('.settings').classList.add('memory-settings')
 
     template = this.addSettings(template)
@@ -123,40 +109,31 @@ Memory.prototype.menuSettings = function () {
     this.settingsOpen = true
   } else {
     // hide the settings
-    var settings = this.element.querySelector('.settings-wrapper')
+    let settings = this.element.querySelector('.settings-wrapper')
     this.element.querySelector('.window-content').removeChild(settings)
     this.settingsOpen = false
   }
 }
 
-/**
- * Function to add the settings
- * @param element - the element to print to
- * @returns {*} - the element
- */
+// Adds the setting the user has chosen (4x4 is default choice)
 Memory.prototype.addSettings = function (element) {
-  var template = document.querySelector('#template-memory-settings').content.cloneNode(true)
+  let template = document.querySelector('#template-memory-settings').content.cloneNode(true)
 
   element.querySelector('.settings').appendChild(template)
   element.querySelector("input[type='button']").addEventListener('click', this.saveSettings.bind(this))
   return element
 }
 
-/**
- * Function to save the settings and run new game
- */
+// Starts a new game with the new settings
 Memory.prototype.saveSettings = function () {
-  var value = this.element.querySelector("select[name='board-size']").value
+  let value = this.element.querySelector("select[name='board-size']").value
 
   // restart with the new settings
   this.restart(value)
   this.settingsOpen = false
 }
 
-/**
- * Function to handle the key input
- * @param key - keycode to handle
- */
+// If the user uses the keyboard (arrows)
 Memory.prototype.keyInput = function (key) {
   if (!this.markedCard) {
     // no card is marked, mark the top left
@@ -197,9 +174,7 @@ Memory.prototype.keyInput = function (key) {
   }
 }
 
-/**
- * Function to handle if key right pressed
- */
+// For when the right arrow key is used
 Memory.prototype.keyRight = function () {
   // find next card
   if (this.markedCard.nextElementSibling) {
@@ -214,9 +189,7 @@ Memory.prototype.keyRight = function () {
   }
 }
 
-/**
- * Function to handle if key left pressed
- */
+// For when the left key is used
 Memory.prototype.keyLeft = function () {
   // find previous card
   if (this.markedCard.previousElementSibling) {
@@ -226,22 +199,20 @@ Memory.prototype.keyLeft = function () {
       this.markedCard = this.markedCard.parentNode.previousElementSibling.lastElementChild
     } else {
       // restart from bottom right
-      var rows = this.element.querySelectorAll('.row')
-      var lastRow = rows[rows.length - 1]
+      let rows = this.element.querySelectorAll('.row')
+      let lastRow = rows[rows.length - 1]
       this.markedCard = lastRow.lastElementChild
     }
   }
 }
 
-/**
- * Function to handle if key up pressed
- */
+// For key up
 Memory.prototype.keyUp = function () {
   // find next row and card
   let rowY
 
   if (this.markedCard.parentNode.previousElementSibling) {
-    var id = this.markedCard.classList[0].slice(-2)
+    let id = this.markedCard.classList[0].slice(-2)
     rowY = parseInt(id.charAt(0)) - 1
   } else {
     // begin from bottom
@@ -250,26 +221,24 @@ Memory.prototype.keyUp = function () {
   }
 
   // find what x-position in the row the marked card is on
-  var cardX = this.markedCard.classList[0].slice(-1)
+  let cardX = this.markedCard.classList[0].slice(-1)
   this.markedCard = this.element.querySelector('.card-' + rowY + cardX)
 }
 
-/**
- * Function to handle if key down pressed
- */
+// For key down
 Memory.prototype.keyDown = function () {
   // find next row and card
-  var rowY
+  let rowY
 
   if (this.markedCard.parentNode.nextElementSibling) {
-    var id = this.markedCard.classList[0].slice(-2)
+    let id = this.markedCard.classList[0].slice(-2)
     rowY = parseInt(id.charAt(0)) + 1
   } else {
     rowY = 0
   }
 
   // find what x-position in the row the marked card is on
-  var cardX = this.markedCard.classList[0].slice(-1)
+  let cardX = this.markedCard.classList[0].slice(-1)
   this.markedCard = this.element.querySelector('.card-' + rowY + cardX)
 }
 

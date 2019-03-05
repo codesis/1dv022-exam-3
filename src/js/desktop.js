@@ -44,7 +44,7 @@ Desktop.prototype.mouseUp = function () {
  * @param event
  */
 Desktop.prototype.mouseDown = function (event) {
-  var element = event.target
+  let element = event.target
 
   // get the clicked-windows "main-div"
   if (element.parentNode.classList) {
@@ -78,15 +78,15 @@ Desktop.prototype.mouseDown = function (event) {
  * @param event
  */
 Desktop.prototype.mouseMove = function (event) {
-  var newX = event.clientX - this.clickX
-  var newY = event.clientY - this.clickY
+  let newX = event.clientX - this.clickX
+  let newY = event.clientY - this.clickY
 
   // check where the new middle should be
-  var newMiddleX = newX + parseInt(this.activeWindow.element.offsetWidth) / 2
-  var newMiddleY = newY + parseInt(this.activeWindow.element.offsetHeight) / 2
+  let newMiddleX = newX + parseInt(this.activeWindow.element.offsetWidth) / 2
+  let newMiddleY = newY + parseInt(this.activeWindow.element.offsetHeight) / 2
 
-  var windowW = window.innerWidth
-  var windowH = window.innerHeight
+  let windowW = window.innerWidth
+  let windowH = window.innerHeight
 
   // if the move is not out of bounds then move it
   if (newMiddleX < windowW && newMiddleX > 0 && newMiddleY < windowH && newY > 0) {
@@ -104,9 +104,9 @@ Desktop.prototype.mouseMove = function (event) {
  * @param event
  */
 Desktop.prototype.windowButtonClick = function (event) {
-  var action = event.target.classList
+  let action = event.target.classList
 
-  var element = event.target
+  let element = event.target
 
   // get the 'parent' window-element
   if (element.parentNode) {
@@ -118,8 +118,8 @@ Desktop.prototype.windowButtonClick = function (event) {
   }
 
   // find what window got clicked
-  var index = -1
-  for (var i = 0; i < this.windows.length; i += 1) {
+  let index = -1
+  for (let i = 0; i < this.windows.length; i += 1) {
     if (this.windows[i].id === element.id) {
       index = i
     }
@@ -150,12 +150,12 @@ Desktop.prototype.windowButtonClick = function (event) {
  * @param id
  */
 Desktop.prototype.closeWindow = function (id) {
-  var removed = false
-  for (var i = 0; i < this.windows.length && !removed; i += 1) {
+  let removed = false
+  for (let i = 0; i < this.windows.length && !removed; i += 1) {
     if (this.windows[i].id === id) {
       // remove from "running-apps"
-      var clickedTooltip = document.querySelector("[value='id:" + this.windows[i].id + "']")
-      var container = clickedTooltip.parentNode
+      let clickedTooltip = document.querySelector("[value='id:" + this.windows[i].id + "']")
+      let container = clickedTooltip.parentNode
       while (!container.classList.contains('tooltip-container')) {
         container = container.parentNode
       }
@@ -174,12 +174,12 @@ Desktop.prototype.closeWindow = function (id) {
  * Function to clear and reset the desktop
  */
 Desktop.prototype.clearDesktop = function () {
-  for (var i = 0; i < this.windows.length; i += 1) {
+  for (let i = 0; i < this.windows.length; i += 1) {
     this.windows[i].destroy()
 
     // remove from "running-apps"
-    var windowTooltip = document.querySelector("[value='id:" + this.windows[i].id + "']")
-    var container = windowTooltip.parentNode
+    let windowTooltip = document.querySelector("[value='id:" + this.windows[i].id + "']")
+    let container = windowTooltip.parentNode
     while (!container.classList.contains('tooltip-container')) {
       container = container.parentNode
     }
@@ -214,7 +214,7 @@ Desktop.prototype.setFocus = function (element) {
   element.focus()
 
   // find the window in window-array
-  for (var i = 0; i < this.windows.length; i += 1) {
+  for (let i = 0; i < this.windows.length; i += 1) {
     if (this.windows[i].id === element.id) {
       this.activeWindow = this.windows[i]
       this.zIndex += 1

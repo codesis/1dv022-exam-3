@@ -45,12 +45,12 @@ ChatApp.prototype.print = function () {
   this.element.querySelector('.window-icon').classList.add('chat-offline')
 
   // add the menu
-  var menu = this.element.querySelector('.window-menu')
-  var alt = document.querySelector('#template-window-menu-alternative').content
-  var alt1 = alt.cloneNode(true)
+  let menu = this.element.querySelector('.window-menu')
+  let alt = document.querySelector('#template-window-menu-alternative').content
+  let alt1 = alt.cloneNode(true)
   alt1.querySelector('.menu-alternative').appendChild(document.createTextNode('Clear History'))
 
-  var alt2 = alt.cloneNode(true)
+  let alt2 = alt.cloneNode(true)
   alt2.querySelector('.menu-alternative').appendChild(document.createTextNode('Settings'))
 
   menu.appendChild(alt1)
@@ -76,7 +76,7 @@ ChatApp.prototype.destroy = function () {
  * @param event
  */
 ChatApp.prototype.menuClicked = function (event) {
-  var target
+  let target
   if (event.target.tagName.toLowerCase() === 'a') {
     // get the target text and make it lower case
     target = event.target.textContent.toLowerCase()
@@ -105,12 +105,12 @@ ChatApp.prototype.menuClicked = function (event) {
  * Function to show the settings
  */
 ChatApp.prototype.menuSettings = function () {
-  var i
-  var inputList
+  let i
+  let inputList
 
   if (!this.settingsOpen) {
     // show the settings
-    var template = document.querySelector('#template-settings').content.cloneNode(true)
+    let template = document.querySelector('#template-settings').content.cloneNode(true)
     template.querySelector('.settings').classList.add('chat-settings')
 
     // get the settings
@@ -128,7 +128,7 @@ ChatApp.prototype.menuSettings = function () {
     this.settingsOpen = true
   } else {
     // settings showing. close the settings
-    var settings = this.element.querySelector('.settings-wrapper')
+    let settings = this.element.querySelector('.settings-wrapper')
     this.element.querySelector('.window-content').removeChild(settings)
     this.settingsOpen = false
   }
@@ -140,7 +140,7 @@ ChatApp.prototype.menuSettings = function () {
  * @returns {*} - the element
  */
 ChatApp.prototype.addSettings = function (element) {
-  var template = document.querySelector('#template-chat-settings').content.cloneNode(true)
+  let template = document.querySelector('#template-chat-settings').content.cloneNode(true)
 
   template.querySelector("input[name='username']").setAttribute('value', this.username)
   template.querySelector("input[name='server']").setAttribute('value', this.server)
@@ -161,7 +161,7 @@ ChatApp.prototype.saveSettings = function () {
     this.chat.online = false
   }
 
-  var form = this.element.querySelector('.settings-form')
+  let form = this.element.querySelector('.settings-form')
 
   // get the values from settings-form
   this.username = form.querySelector("input[name='username']").value

@@ -30,8 +30,8 @@ CreateWindow.prototype.destroy = function () {
  */
 CreateWindow.prototype.print = function () {
   // get the template and modify it to the params
-  var template = document.querySelector('#template-window').content.cloneNode(true)
-  var templateWindow = template.querySelector('div')
+  let template = document.querySelector('#template-window').content.cloneNode(true)
+  let templateWindow = template.querySelector('div')
   templateWindow.setAttribute('id', this.id)
   templateWindow.style.left = this.x + 'px'
   templateWindow.style.top = this.y + 'px'
@@ -39,8 +39,8 @@ CreateWindow.prototype.print = function () {
   templateWindow.setAttribute('tabindex', this.tabIndex)
 
   // insert the new window before launcher in the DOM
-  var element = document.querySelector('#main-frame')
-  var launcher = document.querySelector('.launcher')
+  let element = document.querySelector('#main-frame')
+  let launcher = document.querySelector('.launcher')
   element.insertBefore(template, launcher)
 
   // save the element to the object
@@ -52,9 +52,9 @@ CreateWindow.prototype.print = function () {
 
   // add maximize-button
   if (this.maximizable) {
-    var button = document.querySelector('#template-maximize-button').content.cloneNode(true)
-    var windowButtons = this.element.querySelector('.window-buttons')
-    var removeButton = this.element.querySelector('.minimize-button')
+    let button = document.querySelector('#template-maximize-button').content.cloneNode(true)
+    let windowButtons = this.element.querySelector('.window-buttons')
+    let removeButton = this.element.querySelector('.minimize-button')
     windowButtons.insertBefore(button, removeButton)
   }
 }
@@ -72,7 +72,7 @@ CreateWindow.prototype.minimize = function () {
 CreateWindow.prototype.maximize = function () {
   this.element.classList.toggle('maximized')
 
-  var icon = this.element.querySelector('.maximize-icon i')
+  let icon = this.element.querySelector('.maximize-icon i')
   if (!this.element.classList.contains('maximized')) {
     this.element.classList.add('reset-window')
     this.element.style.left = this.x + 'px'
@@ -89,7 +89,7 @@ CreateWindow.prototype.maximize = function () {
 }
 
 CreateWindow.prototype.clearContent = function () {
-  var content = this.element.querySelector('.window-content')
+  let content = this.element.querySelector('.window-content')
   while (content.hasChildNodes()) {
     content.removeChild(content.firstChild)
   }
