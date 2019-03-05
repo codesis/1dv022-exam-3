@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/memory.css">
     <link rel="stylesheet" href="css/chat.css">
+    <link rel="stylesheet" href="css/notes.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
         <!-- TEMPLATES -->
     <template id="template-window">
@@ -111,6 +112,19 @@
             <span class="emoji"></span>
         </template>
 
+        <template id="template-notes-app">
+                <div class="note-list">
+                    <ul>
+                    </ul>
+                </div>
+                <div class="notes-form">
+                    <form>
+                        <textarea class="note-input" title="Note"></textarea>
+                        <input class="note-button" title="Add" type="button" value="Add" disabled="disabled">
+                    </form>
+                </div>
+            </template>
+
     <template id="template-window-menu-info">
         <span class="menu-info"></span>
     </template>
@@ -148,6 +162,14 @@
                     </div>
                 </div>
             </li>
+            <li value="notes">
+                    <i class="fas fa-pencil-alt"></i>
+                    <div class="tooltip-container">
+                        <div class="tooltip-line">
+                            <span class="tooltip-title">Notes</span>
+                        </div>
+                    </div>
+                </li>
         </ul>
 
         <div class="launcher-clock">

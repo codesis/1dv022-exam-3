@@ -1,12 +1,6 @@
 'use strict'
 
-/* @param username - Set by the user
- * @param channel - optional channel name
- * @param element - The current opened window
- * @constructor
- */
 /**
- * Constructor for the chat
  * @param element - the element to print to
  * @param server - the server
  * @param channel - the channel, default empty
@@ -23,7 +17,7 @@ function Chat (element, server, channel, username) {
   this.online = false
   this.messages = []
 
-  // the timestampoptions to use
+  // the timestamp options to use
   this.timeStampOptions = {
     year: 'numeric',
     month: 'numeric',
@@ -33,9 +27,7 @@ function Chat (element, server, channel, username) {
   }
 }
 
-/**
-* Function to init the basics
-*/
+// Initializing the basics for the application
 Chat.prototype.init = function () {
   this.print()
 
@@ -55,9 +47,7 @@ Chat.prototype.init = function () {
   this.element.querySelector('.chat-sendButton').addEventListener('focus', this.toggleFocus.bind(this))
 }
 
-/**
-* Function to print the chat
-*/
+// Printing the chat application
 Chat.prototype.print = function () {
   // print the chat-template to this.element
   let template = document.querySelector('#template-chat-app').content.cloneNode(true)
@@ -87,9 +77,7 @@ Chat.prototype.print = function () {
   }
 }
 
-/**
-* Function to connect to the server
-*/
+// For connecting to the server
 Chat.prototype.connectToServer = function () {
   // change the classes to show whats happening
   this.element.querySelector('.window-icon').classList.remove('chat-offline')
@@ -117,19 +105,14 @@ Chat.prototype.setOffline = function () {
   this.printNewMessage(data)
 }
 
-/**
-* Function to set chat online if connected
-*/
+// Sets the chat online
 Chat.prototype.setOnline = function () {
   this.online = true
   this.element.querySelector('.window-icon').classList.remove('chat-connecting')
   this.element.querySelector('.window-icon').classList.add('chat-online')
 }
 
-/**
-* Function to handle the messages from server
-* @param event - the datastring from server
-*/
+// For handeling messages received from the server
 Chat.prototype.newMessageFromServer = function (event) {
   let data = JSON.parse(event.data)
   if (data.type === 'message') {
@@ -147,10 +130,7 @@ Chat.prototype.newMessageFromServer = function (event) {
   }
 }
 
-/**
-* Function to submit a message
-* @param event - the event from form
-*/
+// Function for submitting messages in the chat
 Chat.prototype.formSubmit = function (event) {
   if (event) {
     // dont submit the form standard-way
@@ -186,10 +166,7 @@ Chat.prototype.formSubmit = function (event) {
   }
 }
 
-/**
-* Function to print message to the window
-* @param data - the data-string to print
-*/
+// Prints a new message to the chat-window
 Chat.prototype.printNewMessage = function (data) {
   // get the container to check scrolled
   let container = this.element.querySelector('.chat-message-list')
@@ -227,10 +204,7 @@ Chat.prototype.printNewMessage = function (data) {
   this.scrollToBottom(scrolled)
 }
 
-/**
-* Function to autoscroll when new message
-* @param scrolled
-*/
+// Autoscrolls when chat has new message
 Chat.prototype.scrollToBottom = function (scrolled) {
   let container = this.element.querySelector('.chat-message-list')
   if (!scrolled) {
@@ -239,10 +213,7 @@ Chat.prototype.scrollToBottom = function (scrolled) {
   }
 }
 
-/**
-* Function to save the new message to local storage for history
-* @param data
-*/
+// For saving a new message to localstorage
 Chat.prototype.saveNewMessage = function (data) {
   let newMsg = {
     username: data.username,
@@ -255,9 +226,7 @@ Chat.prototype.saveNewMessage = function (data) {
   window.localStorage.setItem('chat-' + this.channel, JSON.stringify(this.messages))
 }
 
-/**
-* Function to read the stored messages from local storage and print them
-*/
+// Reads messages stored in localstorage
 Chat.prototype.readStoredMessages = function () {
   if (window.localStorage.getItem('chat-' + this.channel)) {
     let messages = window.localStorage.getItem('chat-' + this.channel)
@@ -280,18 +249,12 @@ Chat.prototype.readStoredMessages = function () {
   }
 }
 
-/**
-* Function to toggle the focus
-* needed since the window drops focus when form in window is focused
-*/
+// For toggeling focus
 Chat.prototype.toggleFocus = function () {
   this.element.classList.toggle('focused-window')
 }
 
-/**
-* Function to check the input in textarea
-* @param event
-*/
+// For checking the input
 Chat.prototype.checkInput = function (event) {
   // get the input
   let input = event.target.value
@@ -309,17 +272,12 @@ Chat.prototype.checkInput = function (event) {
   }
 
   if (input.charCodeAt(0) === 10) {
-    // first char is enter, reset form and disable send-button
     this.element.querySelector('form').reset()
     this.element.querySelector('.chat-sendButton').setAttribute('disabled', 'disabled')
   }
 }
 
-/**
-* Function to find and parse message to clickable links and emojis
-* @param text - the message
-* @returns {*} - documentFragment to append as message
-*/
+// For when links or emojis are sent
 Chat.prototype.parseMessage = function (text) {
   let frag = document.createDocumentFragment()
   let link
@@ -349,9 +307,8 @@ Chat.prototype.parseMessage = function (text) {
 
   return frag
 }
-/**
-* Function to clear the history
-*/
+
+// For when user wants to clear the message history
 Chat.prototype.clearHistory = function () {
   // remove from storage and reset array
   window.localStorage.removeItem('chat-' + this.channel)

@@ -1,6 +1,7 @@
 'use strict'
 import Memory from './memory/memory.js'
 import Chat from './chat/chatApplication.js'
+import Notes from './notes/notes.js'
 
 /**
  * Constructor for the launcher
@@ -160,6 +161,13 @@ Launcher.prototype.createApplication = function (type, appOptions) {
       newApp = new Chat(appOptions)
       newApp.init()
 
+      break
+    }
+    case 'notes': {
+      appOptions.maximizable = true
+      appOptions.keyActivated = true
+      newApp = new Notes(appOptions)
+      newApp.print()
       break
     }
     case 'reset':
