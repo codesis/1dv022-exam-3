@@ -1,7 +1,6 @@
 'use strict'
 
 /**
- * Constructor for Create window
  * @param options, object with the settings
  * @constructor
  */
@@ -18,16 +17,12 @@ function CreateWindow (options) {
   this.zIndex = options.zIndex
 }
 
-/**
- * Destroy the window
- */
+// Remove/destroy the window
 CreateWindow.prototype.destroy = function () {
   document.querySelector('#main-frame').removeChild(this.element)
 }
 
-/**
- * Print the window
- */
+// Print the window
 CreateWindow.prototype.print = function () {
   // get the template and modify it to the params
   let template = document.querySelector('#template-window').content.cloneNode(true)
@@ -46,7 +41,7 @@ CreateWindow.prototype.print = function () {
   // save the element to the object
   this.element = document.querySelector('#' + this.id)
 
-  // add title and icon to the window
+  // add title and icon to the window (Issue with the icon not being added!)
   this.element.querySelector('.window-title').appendChild(document.createTextNode(this.title))
   this.element.querySelector('.window-icon').appendChild(document.createTextNode(this.icon))
 
@@ -59,31 +54,24 @@ CreateWindow.prototype.print = function () {
   }
 }
 
-/**
- * Minimize the window
- */
+// Minimize a window
 CreateWindow.prototype.minimize = function () {
   this.element.classList.toggle('minimized')
 }
 
-/**
- * Maximize the window
- */
+// Maximize a window
 CreateWindow.prototype.maximize = function () {
   this.element.classList.toggle('maximized')
 
-  let icon = this.element.querySelector('.maximize-icon i')
   if (!this.element.classList.contains('maximized')) {
     this.element.classList.add('reset-window')
     this.element.style.left = this.x + 'px'
     this.element.style.top = this.y + 'px'
-    icon.replaceChild(document.createTextNode('crop_din'), icon.firstChild)
     this.element.querySelector('.maximize-button').setAttribute('title', 'Maximize')
   } else {
     this.element.classList.remove('reset-window')
     this.element.style.top = '0px'
     this.element.style.left = '0px'
-    icon.replaceChild(document.createTextNode('filter_none'), icon.firstChild)
     this.element.querySelector('.maximize-button').setAttribute('title', 'Resize')
   }
 }

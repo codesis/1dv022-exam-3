@@ -29,7 +29,7 @@ body {
 .window .window-top {
 	width: 100%;
 	height: 30px;
-	background: #ccc;
+	background: #d8bbce;
 }
 
 .window .window-icon {
@@ -46,7 +46,7 @@ body {
 .window .window-menu {
 	width: 100%;
 	height: 20px;
-	background: #dde6f4;
+	background: #c2a3b7;
 	border-bottom: 1px solid #e2ebf8;
 }
 
@@ -57,7 +57,7 @@ body {
 }
 
 .window .window-menu a:hover {
-	background: rgba(25,121,202,0.9);
+	background: #bd94af;
 	color: rgba(255,255,255,0.9);
 }
 
@@ -78,7 +78,7 @@ body {
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background: rgba(255,255,255,0.7);
+	background: rgba(222, 197, 223, 0.7);
 	z-index: 999;
 }
 
@@ -104,7 +104,7 @@ body {
 }
 
 .window:focus .window-top, .focused-window .window-top{
-	background: #d0e1f8;
+	background: #9c6f8d;
 }
 
 .window:focus .window-buttons {
@@ -121,7 +121,7 @@ body {
 }
 
 .exit-button:hover {
-	background: red;
+	background: #8a4f76;
 	transition: all 0.5s;
 	cursor: pointer;
 	color: rgba(255,255,255,0.8);
@@ -129,7 +129,7 @@ body {
 
 
 .minimize-button:hover, .maximize-button:hover {
-	background: #e5e5e5;
+	background: #8a4f76;
 	transition: background 0.5s;
 	cursor: pointer;
 	color: rgba(0,0,0,0.9);
@@ -188,7 +188,8 @@ body {
 }
 
 .launcher li i {
-	padding-top: 5px;
+	padding-top: 8px;
+	font-size: 24px;
 }
 
 .launcher li:hover {
@@ -225,7 +226,7 @@ body {
 }
 
 .tooltip-line {
-	background: rgba(0,0,0,0.5);
+	background: rgba(58, 8, 55, 0.85);
 	width: 100%;
 }
 
@@ -242,7 +243,7 @@ body {
 }
 
 .tooltip-close:hover {
-	background: rgba(232,17,35,0.8);
+	background: #8a4f76;
 }
 
 .tooltip-title:hover {
@@ -281,13 +282,6 @@ body {
 	display: block;
 }
 
-.material-icons.md-12 { font-size: 12px; }
-.material-icons.md-13 { font-size: 13px; }
-.material-icons.md-16 { font-size: 16px; }
-.material-icons.md-18 { font-size: 18px; }
-.material-icons.md-24 { font-size: 24px; }
-.material-icons.md-30 { font-size: 30px; }
-
 .no-pointer {
 	pointer-events: none;
 }
@@ -304,7 +298,6 @@ body {
 	width: 100%;
 	text-align: center;
 }
-
 .resize-icon {
 	transform: scale(-1, -1);
 }

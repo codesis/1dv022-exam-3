@@ -3,7 +3,6 @@ import CreateWindow from '../window.js'
 import Chat from './chat.js'
 
 /**
- * Constructor function for the chat app
  * @param options - the settings-object
  * @constructor
  */
@@ -12,7 +11,7 @@ function ChatApp (options) {
   this.chat = undefined
   this.settingsOpen = false
   this.username = ''
-  this.server = 'localhost:4000'
+  this.server = 'ws://vhost3.lnu.se:20080/socket/'
 
   this.addFocusFunc = this.addFocus.bind(this)
   this.removeFocusFunc = this.removeFocus.bind(this)
@@ -21,9 +20,7 @@ function ChatApp (options) {
 ChatApp.prototype = Object.create(CreateWindow.prototype)
 ChatApp.prototype.constructor = ChatApp
 
-/**
- * Function to init the Creates
- */
+// Initialize the chat application, if localstorage has a previous username it will use it
 ChatApp.prototype.init = function () {
   if (window.localStorage.getItem('username')) {
     this.username = window.localStorage.getItem('username')
@@ -35,16 +32,14 @@ ChatApp.prototype.init = function () {
   this.element.querySelector('.window-menu').addEventListener('click', this.menuClicked.bind(this))
 }
 
-/**
- * Function to print the app
- */
+// Printing the chat application
 ChatApp.prototype.print = function () {
   CreateWindow.prototype.print.call(this)
 
   this.element.classList.add('chat-app')
   this.element.querySelector('.window-icon').classList.add('chat-offline')
 
-  // add the menu
+  // adding the menu
   let menu = this.element.querySelector('.window-menu')
   let alt = document.querySelector('#template-window-menu-alternative').content
   let alt1 = alt.cloneNode(true)
@@ -56,13 +51,11 @@ ChatApp.prototype.print = function () {
   menu.appendChild(alt1)
   menu.appendChild(alt2)
 
-  // print the settings
+  // printing the settings
   this.menuSettings()
 }
 
-/**
- * Function to destroy the app
- */
+// Terminates the application
 ChatApp.prototype.destroy = function () {
   if (this.chat) {
     this.chat.socket.close()
@@ -71,10 +64,7 @@ ChatApp.prototype.destroy = function () {
   document.querySelector('#main-frame').removeChild(this.element)
 }
 
-/**
- * Function to handle the menu-click
- * @param event
- */
+// For when the menu is clicked
 ChatApp.prototype.menuClicked = function (event) {
   let target
   if (event.target.tagName.toLowerCase() === 'a') {
@@ -84,26 +74,21 @@ ChatApp.prototype.menuClicked = function (event) {
 
   if (target) {
     switch (target) {
-      // make the correct call
       case 'settings': {
         this.menuSettings()
         break
       }
-
       case 'clear history': {
         if (this.chat) {
           this.chat.clearHistory()
         }
-
         break
       }
     }
   }
 }
 
-/**
- * Function to show the settings
- */
+// Making the chat settings viewable and usable for the user
 ChatApp.prototype.menuSettings = function () {
   let i
   let inputList
@@ -123,22 +108,17 @@ ChatApp.prototype.menuSettings = function () {
       inputList[i].addEventListener('focusout', this.removeFocusFunc)
     }
 
-    // append it
+    // append it, else close the setting window
     this.element.querySelector('.window-content').appendChild(template)
     this.settingsOpen = true
   } else {
-    // settings showing. close the settings
     let settings = this.element.querySelector('.settings-wrapper')
     this.element.querySelector('.window-content').removeChild(settings)
     this.settingsOpen = false
   }
 }
 
-/**
- * Function to add the settings
- * @param element - the element to append to
- * @returns {*} - the element
- */
+// If the user wants to change the settings
 ChatApp.prototype.addSettings = function (element) {
   let template = document.querySelector('#template-chat-settings').content.cloneNode(true)
 
@@ -151,9 +131,7 @@ ChatApp.prototype.addSettings = function (element) {
   return element
 }
 
-/**
- * Function to save the settings and reopen chat with them
- */
+// Save previous settings for the next time the application is opened
 ChatApp.prototype.saveSettings = function () {
   // close the chat-connection
   if (this.chat) {
@@ -188,27 +166,21 @@ ChatApp.prototype.saveSettings = function () {
   window.localStorage.setItem('username', this.username)
 }
 
-/**
- * Function to add focus to the window
- */
+// Adds the focus to the window
 ChatApp.prototype.addFocus = function () {
   if (!this.element.classList.contains('focused-window')) {
     this.element.classList.add('focused-window')
   }
 }
 
-/**
- * Function to remove focus from window
- */
+// Removes the focus from the window
 ChatApp.prototype.removeFocus = function () {
   if (this.element.classList.contains('focused-window')) {
     this.element.classList.remove('focused-window')
   }
 }
 
-/**
- * Function to set focus
- */
+// Sets focus
 ChatApp.prototype.setFocus = function () {
   this.element.classList.remove('focused-window')
   this.element.focus()
