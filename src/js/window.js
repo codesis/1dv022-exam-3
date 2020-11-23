@@ -25,8 +25,10 @@ CreateWindow.prototype.destroy = function () {
 // Print the window
 CreateWindow.prototype.print = function () {
   // get the template and modify it to the params
-  let template = document.querySelector('#template-window').content.cloneNode(true)
-  let templateWindow = template.querySelector('div')
+  const template = document
+    .querySelector('#template-window')
+    .content.cloneNode(true)
+  const templateWindow = template.querySelector('div')
   templateWindow.setAttribute('id', this.id)
   templateWindow.style.left = this.x + 'px'
   templateWindow.style.top = this.y + 'px'
@@ -34,22 +36,28 @@ CreateWindow.prototype.print = function () {
   templateWindow.setAttribute('tabindex', this.tabIndex)
 
   // insert the new window before launcher in the DOM
-  let element = document.querySelector('#main-frame')
-  let launcher = document.querySelector('.launcher')
+  const element = document.querySelector('#main-frame')
+  const launcher = document.querySelector('.launcher')
   element.insertBefore(template, launcher)
 
   // save the element to the object
   this.element = document.querySelector('#' + this.id)
 
   // add title and icon to the window (Issue with the icon not being added!)
-  this.element.querySelector('.window-title').appendChild(document.createTextNode(this.title))
-  this.element.querySelector('.window-icon').appendChild(document.createTextNode(this.icon))
+  this.element
+    .querySelector('.window-title')
+    .appendChild(document.createTextNode(this.title))
+  this.element
+    .querySelector('.window-icon')
+    .appendChild(document.createTextNode(this.icon))
 
   // add maximize-button
   if (this.maximizable) {
-    let button = document.querySelector('#template-maximize-button').content.cloneNode(true)
-    let windowButtons = this.element.querySelector('.window-buttons')
-    let removeButton = this.element.querySelector('.minimize-button')
+    const button = document
+      .querySelector('#template-maximize-button')
+      .content.cloneNode(true)
+    const windowButtons = this.element.querySelector('.window-buttons')
+    const removeButton = this.element.querySelector('.minimize-button')
     windowButtons.insertBefore(button, removeButton)
   }
 }
@@ -67,17 +75,21 @@ CreateWindow.prototype.maximize = function () {
     this.element.classList.add('reset-window')
     this.element.style.left = this.x + 'px'
     this.element.style.top = this.y + 'px'
-    this.element.querySelector('.maximize-button').setAttribute('title', 'Maximize')
+    this.element
+      .querySelector('.maximize-button')
+      .setAttribute('title', 'Maximize')
   } else {
     this.element.classList.remove('reset-window')
     this.element.style.top = '0px'
     this.element.style.left = '0px'
-    this.element.querySelector('.maximize-button').setAttribute('title', 'Resize')
+    this.element
+      .querySelector('.maximize-button')
+      .setAttribute('title', 'Resize')
   }
 }
 
 CreateWindow.prototype.clearContent = function () {
-  let content = this.element.querySelector('.window-content')
+  const content = this.element.querySelector('.window-content')
   while (content.hasChildNodes()) {
     content.removeChild(content.firstChild)
   }

@@ -39,22 +39,38 @@ Chat.prototype.init = function () {
 
   // add listeners
   this.socket.addEventListener('message', this.newMessageFromServer.bind(this))
-  this.element.querySelector('.chat-sendButton').addEventListener('click', this.formSubmit.bind(this))
-  this.element.querySelector('form').addEventListener('submit', this.formSubmit.bind(this))
-  this.element.querySelector('form').addEventListener('focusout', this.toggleFocus.bind(this))
-  this.element.querySelector('.chat-inputField').addEventListener('focus', this.toggleFocus.bind(this))
-  this.element.querySelector('.chat-inputField').addEventListener('input', this.checkInput.bind(this))
-  this.element.querySelector('.chat-sendButton').addEventListener('focus', this.toggleFocus.bind(this))
+  this.element
+    .querySelector('.chat-sendButton')
+    .addEventListener('click', this.formSubmit.bind(this))
+  this.element
+    .querySelector('form')
+    .addEventListener('submit', this.formSubmit.bind(this))
+  this.element
+    .querySelector('form')
+    .addEventListener('focusout', this.toggleFocus.bind(this))
+  this.element
+    .querySelector('.chat-inputField')
+    .addEventListener('focus', this.toggleFocus.bind(this))
+  this.element
+    .querySelector('.chat-inputField')
+    .addEventListener('input', this.checkInput.bind(this))
+  this.element
+    .querySelector('.chat-sendButton')
+    .addEventListener('focus', this.toggleFocus.bind(this))
 }
 
 // Printing the chat application
 Chat.prototype.print = function () {
   // print the chat-template to this.element
-  let template = document.querySelector('#template-chat-app').content.cloneNode(true)
+  let template = document
+    .querySelector('#template-chat-app')
+    .content.cloneNode(true)
   this.element.querySelector('.window-content').appendChild(template)
 
   // print info
-  let info = document.querySelector('#template-window-menu-info').content.cloneNode(true)
+  let info = document
+    .querySelector('#template-window-menu-info')
+    .content.cloneNode(true)
   let channelInfo = ''
 
   // handle the channels
@@ -65,7 +81,9 @@ Chat.prototype.print = function () {
   }
 
   // show info
-  let infoNode = document.createTextNode('#' + channelInfo.slice(0, 18) + '/' + this.username.slice(0, 10))
+  let infoNode = document.createTextNode(
+    '#' + channelInfo.slice(0, 18) + '/' + this.username.slice(0, 10)
+  )
   info.querySelector('.menu-info').appendChild(infoNode)
 
   let menuInfo = this.element.querySelector('.menu-info')
@@ -117,7 +135,10 @@ Chat.prototype.newMessageFromServer = function (event) {
   let data = JSON.parse(event.data)
   if (data.type === 'message') {
     // add timestamp to data-object
-    data.timestamp = new Date().toLocaleDateString('sv-se', this.timeStampOptions)
+    data.timestamp = new Date().toLocaleDateString(
+      'sv-se',
+      this.timeStampOptions
+    )
     if (!data.channel) {
       data.channel = ''
     }
@@ -160,7 +181,9 @@ Chat.prototype.formSubmit = function (event) {
       this.socket.send(JSON.stringify(msg))
 
       // disable the button and reset the form
-      this.element.querySelector('.chat-sendButton').setAttribute('disabled', 'disabled')
+      this.element
+        .querySelector('.chat-sendButton')
+        .setAttribute('disabled', 'disabled')
       this.element.querySelector('form').reset()
     }
   }
@@ -173,19 +196,23 @@ Chat.prototype.printNewMessage = function (data) {
   let scrolled = false
 
   // check if the user has scrolled up
-  if (container.scrollTop !== (container.scrollHeight - container.offsetHeight)) {
+  if (container.scrollTop !== container.scrollHeight - container.offsetHeight) {
     scrolled = true
   }
 
   // get the template for new message and modify it
-  let template = document.querySelector('#template-chat-message-line').content.cloneNode(true)
+  let template = document
+    .querySelector('#template-chat-message-line')
+    .content.cloneNode(true)
   let usernameNode = document.createTextNode(data.username + ': ')
   let messageNode = this.parseMessage(data.data)
 
   template.querySelector('.chat-message').appendChild(messageNode)
   if (data.timestamp) {
     // add the timestamp as title
-    template.querySelector('.chat-message-line').setAttribute('title', data.timestamp)
+    template
+      .querySelector('.chat-message-line')
+      .setAttribute('title', data.timestamp)
   }
 
   if (this.username === data.username) {
@@ -223,7 +250,10 @@ Chat.prototype.saveNewMessage = function (data) {
 
   // add the new message to the array and save it
   this.messages.push(newMsg)
-  window.localStorage.setItem('chat-' + this.channel, JSON.stringify(this.messages))
+  window.localStorage.setItem(
+    'chat-' + this.channel,
+    JSON.stringify(this.messages)
+  )
 }
 
 // Reads messages stored in localstorage
@@ -239,7 +269,9 @@ Chat.prototype.readStoredMessages = function () {
 
     // add end-of-history separator
     if (this.messages.length > 0) {
-      let separator = document.querySelector('#template-chat-history-separator').content.cloneNode(true)
+      let separator = document
+        .querySelector('#template-chat-history-separator')
+        .content.cloneNode(true)
       this.element.querySelector('.chat-message-list ul').appendChild(separator)
 
       // scroll to bottom
@@ -263,7 +295,9 @@ Chat.prototype.checkInput = function (event) {
   if (input.length > 0) {
     this.element.querySelector('.chat-sendButton').removeAttribute('disabled')
   } else {
-    this.element.querySelector('.chat-sendButton').setAttribute('disabled', 'disabled')
+    this.element
+      .querySelector('.chat-sendButton')
+      .setAttribute('disabled', 'disabled')
   }
 
   // check if the last char was enter, and submit
@@ -273,7 +307,9 @@ Chat.prototype.checkInput = function (event) {
 
   if (input.charCodeAt(0) === 10) {
     this.element.querySelector('form').reset()
-    this.element.querySelector('.chat-sendButton').setAttribute('disabled', 'disabled')
+    this.element
+      .querySelector('.chat-sendButton')
+      .setAttribute('disabled', 'disabled')
   }
 }
 
@@ -337,7 +373,9 @@ Chat.prototype.addLinkOrEmojiToFragment = function (frag, type, data) {
 
 // For the emojis in the messages
 Chat.prototype.parseEmojis = function (emoji) {
-  var template = document.querySelector('#template-chat-emoji').content.cloneNode(true)
+  var template = document
+    .querySelector('#template-chat-emoji')
+    .content.cloneNode(true)
   var elem = template.querySelector('.emoji')
   switch (emoji) {
     case ':)':
